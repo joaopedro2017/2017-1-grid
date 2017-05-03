@@ -22,15 +22,22 @@ Sprite.prototype.desenhar = function(ctx) {
 };
 
 
-Sprite.prototype.mover = function (dt) {
-  this.x = this.x + this.vx*dt;
-  this.y = this.y + this.vy*dt;
+Sprite.prototype.mover = function(dt) {
+  this.x = this.x + this.vx * dt;
+  this.y = this.y + this.vy * dt;
 };
 
-Sprite.prototype.moverOnMap = function (map,dt) {
+Sprite.prototype.moverOnMap = function(map, dt) {
   var pos = map.getIndices(this);
-  if(map.cells[pos.l][pos.c]==0){
-    this.x = this.x + this.vx*dt;
-    this.y = this.y + this.vy*dt;
+  if (map.cells[pos.l][pos.c] != 0) return;
+
+  if (map.cells[pos.l][pos.c + 1] == 0) {
+    this.x = this.x + this.vx * dt;
+    this.y = this.y + this.vy * dt;
+  } else {
+    var dist = (pos.c+1) * map.SIZE - (this.x + this.SIZE / 2);
+    var mmax = Math.min(dist, this.vx * dt);
+    console.log(mmax);
+    this.x = this.x + mmax;
   }
 };
