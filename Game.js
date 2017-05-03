@@ -1,7 +1,7 @@
 var tela;
 var ctx;
 var antes = 0;
-var dt;
+var dt = 0;
 var mapa;
 var pc;
 function init(){
@@ -27,14 +27,16 @@ function init(){
   pc = new Sprite();
   pc.x = 50;
   pc.y = 50;
+  pc.vx = 20;
 
 
-  passo();
+  requestAnimationFrame(passo);
 }
 
 function passo(t){
-  dt = t - antes;
+  dt = (t - antes)/1000;
   requestAnimationFrame(passo);
+  pc.mover(dt);
   mapa.desenhar(ctx);
   pc.desenhar(ctx);
   antes = t;
