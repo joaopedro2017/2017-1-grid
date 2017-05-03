@@ -26,3 +26,11 @@ Sprite.prototype.mover = function (dt) {
   this.x = this.x + this.vx*dt;
   this.y = this.y + this.vy*dt;
 };
+
+Sprite.prototype.moverOnMap = function (map,dt) {
+  var pos = map.getIndices(this);
+  if(map.cells[pos.l][pos.c]==0){
+    this.x = this.x + this.vx*dt;
+    this.y = this.y + this.vy*dt;
+  }
+};

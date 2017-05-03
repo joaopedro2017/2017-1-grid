@@ -40,3 +40,10 @@ Map.prototype.loadMap = function(map) {
     }
   }
 };
+
+Map.prototype.getIndices = function (sprite) {
+   var pos = {};
+   pos.c = Math.floor(sprite.x/this.SIZE);
+   pos.l = Math.floor(sprite.y/this.SIZE);
+   return pos;
+};
