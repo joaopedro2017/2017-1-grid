@@ -20,7 +20,10 @@ Map.prototype.desenhar = function(ctx) {
         break;
         case 1:
         ctx.fillStyle = 'brown';
+        ctx.strokeStyle = 'tan';
         ctx.fillRect(j * this.SIZE, i * this.SIZE, this.SIZE, this.SIZE);
+        ctx.lineWidth = 3;
+        ctx.strokeRect(j * this.SIZE, i * this.SIZE, this.SIZE, this.SIZE);
         break;
         default: ctx.fillStyle = 'red';
         ctx.fillRect(j * this.SIZE, i * this.SIZE, this.SIZE, this.SIZE);
