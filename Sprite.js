@@ -31,13 +31,18 @@ Sprite.prototype.moverOnMap = function(map, dt) {
   var pos = map.getIndices(this);
   if (map.cells[pos.l][pos.c] != 0) return;
 
-  if (map.cells[pos.l][pos.c + 1] == 0) {
+  if (this.vx > 0 && map.cells[pos.l][pos.c + 1] != 0) {
+    var dist = (pos.c + 1) * map.SIZE - (this.x + this.SIZE / 2);
+    var mmax = Math.min(dist, this.vx * dt);
+    this.x = this.x + mmax;
+  } else if (this.vx < 0 && map.cells[pos.l][pos.c - 1] != 0) {
+    var dist = (pos.c) * map.SIZE - (this.x - this.SIZE / 2);
+    var mmax = Math.max(dist, this.vx * dt);
+    this.x = this.x + mmax;
+  } else {
     this.x = this.x + this.vx * dt;
     this.y = this.y + this.vy * dt;
-  } else {
-    var dist = (pos.c+1) * map.SIZE - (this.x + this.SIZE / 2);
-    var mmax = Math.min(dist, this.vx * dt);
-    console.log(mmax);
-    this.x = this.x + mmax;
   }
+
+
 };
