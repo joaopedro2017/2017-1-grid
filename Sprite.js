@@ -43,11 +43,11 @@ Sprite.prototype.moverOnMap = function(map, dt) {
     this.x = this.x + this.vx * dt;
   }
 
-  if (this.vy > 0 && map.cells[pos.l+1][pos.c] != 0) {
+  if (this.vy > 0 && map.cells[pos.l + 1][pos.c] != 0) {
     var dist = (pos.l + 1) * map.SIZE - (this.y + this.SIZE / 2);
     var mmax = Math.min(dist, this.vy * dt);
     this.y = this.y + mmax;
-  } else if (this.vy < 0 && map.cells[pos.l-1][pos.c] != 0) {
+  } else if (this.vy < 0 && map.cells[pos.l - 1][pos.c] != 0) {
     var dist = (pos.l) * map.SIZE - (this.y - this.SIZE / 2);
     var mmax = Math.max(dist, this.vy * dt);
     this.y = this.y + mmax;
@@ -55,5 +55,11 @@ Sprite.prototype.moverOnMap = function(map, dt) {
     this.y = this.y + this.vy * dt;
   }
 
+};
 
+
+Sprite.prototype.persegue = function(alvo) {
+  var dist = Math.sqrt(Math.pow(alvo.x - this.x, 2) + Math.pow(alvo.y - this.y, 2));
+this.vx = 40 * (alvo.x - this.x) / dist;
+this.vy = 40 * (alvo.y - this.y) / dist;
 };

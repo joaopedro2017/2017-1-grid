@@ -86,3 +86,9 @@ Map.prototype.moverInimigosOnMap = function(map, dt) {
     this.enemies[i].moverOnMap(map,dt);
   }
 }
+
+Map.prototype.persegue = function(alvo) {
+  for (var i = 0; i < this.enemies.length; i++) {
+    this.enemies[i].persegue(alvo);
+  }
+}
