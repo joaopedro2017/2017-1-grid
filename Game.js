@@ -37,6 +37,7 @@ function passo(t){
   ctx.clearRect(0,0, tela.width, tela.height);
   requestAnimationFrame(passo);
   pc.moverOnMap(mapa, dt);
+  mapa.moverInimigosOnMap(mapa, dt);
   mapa.desenhar(ctx);
   pc.desenhar(ctx);
   antes = t;

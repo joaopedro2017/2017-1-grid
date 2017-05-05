@@ -1,6 +1,8 @@
 function Map(l, c) {
   this.SIZE = 40;
   this.cells = [];
+  this.enemies = [];
+
   for (var i = 0; i < l; i++) {
     this.cells[i] = [];
     for (var j = 0; j < c; j++) {
@@ -29,6 +31,7 @@ Map.prototype.desenhar = function(ctx) {
       }
     }
   }
+  this.desenharInimigos(ctx);
 };
 
 Map.prototype.loadMap = function(map) {
@@ -45,3 +48,30 @@ Map.prototype.getIndices = function (sprite) {
    pos.l = Math.floor(sprite.y/this.SIZE);
    return pos;
 };
+
+
+Map.prototype.criaInimigo = function (l,c) {
+  var inimigo = new Sprite();
+  inimigo.x = c*this.SIZE;
+  inimigo.y = l*this.SIZE;
+  this.enemies.push(inimigo);
+};
+
+
+Map.prototype.desenharInimigos = function(ctx) {
+  for (var i = 0; i < this.enemies.length; i++) {
+    this.enemies[i].desenhar(ctx);
+  }
+}
+
+Map.prototype.moverInimigos = function(dt) {
+  for (var i = 0; i < this.enemies.length; i++) {
+    this.enemies[i].mover(dt);
+  }
+}
+
+Map.prototype.moverInimigosOnMap = function(map, dt) {
+  for (var i = 0; i < this.enemies.length; i++) {
+    this.enemies[i].moverOnMap(map,dt);
+  }
+}
