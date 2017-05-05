@@ -37,7 +37,18 @@ Map.prototype.desenhar = function(ctx) {
 Map.prototype.loadMap = function(map) {
   for (var i = 0; i < this.cells.length; i++) {
     for (var j = 0; j < this.cells[i].length; j++) {
-      this.cells[i][j] = map[i][j];
+      switch (map[i][j]) {
+        case 0:
+        case 1:
+          this.cells[i][j] = map[i][j];
+          break;
+        case 9:
+          this.cells[i][j] = 0;
+          this.criaInimigo(i,j);
+        break;
+        default:
+
+      }
     }
   }
 };
@@ -52,8 +63,8 @@ Map.prototype.getIndices = function (sprite) {
 
 Map.prototype.criaInimigo = function (l,c) {
   var inimigo = new Sprite();
-  inimigo.x = c*this.SIZE;
-  inimigo.y = l*this.SIZE;
+  inimigo.x = (c+0.5)*this.SIZE;
+  inimigo.y = (l+0.5)*this.SIZE;
   this.enemies.push(inimigo);
 };
 
