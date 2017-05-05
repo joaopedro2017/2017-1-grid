@@ -42,7 +42,7 @@ Sprite.prototype.moverOnMap = function(map, dt) {
   } else {
     this.x = this.x + this.vx * dt;
   }
-  
+
   if (this.vy > 0 && map.cells[pos.l+1][pos.c] != 0) {
     var dist = (pos.l + 1) * map.SIZE - (this.y + this.SIZE / 2);
     var mmax = Math.min(dist, this.vy * dt);

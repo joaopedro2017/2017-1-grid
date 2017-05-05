@@ -27,8 +27,7 @@ function init(){
   pc = new Sprite();
   pc.x = 50;
   pc.y = 50;
-  pc.vx = 20;
-
+  configuraControles();
 
   requestAnimationFrame(passo);
 }
@@ -41,4 +40,54 @@ function passo(t){
   mapa.desenhar(ctx);
   pc.desenhar(ctx);
   antes = t;
+}
+
+function configuraControles(){
+  addEventListener("keydown", function(e){
+    switch (e.keyCode) {
+      case 37:
+          pc.vx = -100;
+          e.preventDefault();
+        break;
+      case 38:
+          pc.vy = -100;
+          e.preventDefault();
+        break;
+      case 39:
+          pc.vx = +100;
+          e.preventDefault();
+        break;
+      case 40:
+          pc.vy = +100;
+          e.preventDefault();
+        break;
+      default:
+    }
+  });
+  addEventListener("keyup", function(e){
+    switch (e.keyCode) {
+      case 37:
+      case 39:
+          pc.vx = 0;
+          e.preventDefault();
+        break;
+      case 38:
+      case 40:
+          pc.vy = 0;
+          e.preventDefault();
+        break;
+      default:
+    }
+  });
+
+
+
+
+
+
+
+
+
+
+
 }
