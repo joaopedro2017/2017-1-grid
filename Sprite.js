@@ -41,6 +41,17 @@ Sprite.prototype.moverOnMap = function(map, dt) {
     this.x = this.x + mmax;
   } else {
     this.x = this.x + this.vx * dt;
+  }
+  
+  if (this.vy > 0 && map.cells[pos.l+1][pos.c] != 0) {
+    var dist = (pos.l + 1) * map.SIZE - (this.y + this.SIZE / 2);
+    var mmax = Math.min(dist, this.vy * dt);
+    this.y = this.y + mmax;
+  } else if (this.vy < 0 && map.cells[pos.l-1][pos.c] != 0) {
+    var dist = (pos.l) * map.SIZE - (this.y - this.SIZE / 2);
+    var mmax = Math.max(dist, this.vy * dt);
+    this.y = this.y + mmax;
+  } else {
     this.y = this.y + this.vy * dt;
   }
 
