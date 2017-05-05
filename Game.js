@@ -35,6 +35,7 @@ function init(){
 
 function passo(t){
   dt = (t - antes)/1000;
+  ctx.clearRect(0,0, tela.width, tela.height);
   requestAnimationFrame(passo);
   pc.moverOnMap(mapa, dt);
   mapa.desenhar(ctx);

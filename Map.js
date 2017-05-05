@@ -15,12 +15,10 @@ Map.prototype.desenhar = function(ctx) {
     for (var j = 0; j < linha.length; j++) {
       switch (this.cells[i][j]) {
         case 0:
-          ctx.fillStyle = 'black';
-          ctx.fillRect(j * this.SIZE, i * this.SIZE, this.SIZE, this.SIZE);
           break;
         case 1:
           ctx.fillStyle = 'brown';
-          ctx.strokeStyle = 'tan';
+          ctx.strokeStyle = 'chocolate';
           ctx.fillRect(j * this.SIZE, i * this.SIZE, this.SIZE, this.SIZE);
           ctx.lineWidth = 3;
           ctx.strokeRect(j * this.SIZE, i * this.SIZE, this.SIZE, this.SIZE);

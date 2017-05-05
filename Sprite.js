@@ -13,7 +13,7 @@ Sprite.prototype.desenhar = function(ctx) {
     this.y - this.SIZE / 2,
     this.SIZE, this.SIZE
   );
-  ctx.strokeStyle = "white";
+  ctx.strokeStyle = "darkgrey";
   ctx.strokeRect(
     this.x - this.SIZE / 2,
     this.y - this.SIZE / 2,
