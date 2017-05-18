@@ -3,7 +3,7 @@ function Sprite() {
   this.y = 0;
   this.vx = 0;
   this.vy = 0;
-  this.SIZE = 15;
+  this.SIZE = 15;    
 }
 
 Sprite.prototype.desenhar = function(ctx) {
@@ -20,7 +20,6 @@ Sprite.prototype.desenhar = function(ctx) {
     this.SIZE, this.SIZE
   );
 };
-
 
 Sprite.prototype.mover = function(dt) {
   this.x = this.x + this.vx * dt;
