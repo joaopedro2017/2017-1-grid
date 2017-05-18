@@ -134,3 +134,12 @@ Map.prototype.persegue = function(alvo) {
     this.enemies[i].persegue(alvo);
   }
 }
+
+Map.prototype.testarAColisao = function(alvo){
+  for (var i = 0; i < this.enemies.length; i++) {
+    if(alvo.colidirCom(this.enemies[i])){
+      this.enemies[i].destroyed = true;
+      this.enemies.splice(i,1);
+    }
+  }
+}

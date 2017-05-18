@@ -62,3 +62,11 @@ Sprite.prototype.persegue = function(alvo) {
 this.vx = 40 * (alvo.x - this.x) / dist;
 this.vy = 40 * (alvo.y - this.y) / dist;
 };
+
+Sprite.prototype.colidirCom = function(alvo){
+  if(this.y+(this.SIZE/2) < alvo.y-(alvo.SIZE/2)) return false;
+  if(this.y-(this.SIZE/2) > alvo.y+(alvo.SIZE/2)) return false;
+  if(this.x+(this.SIZE/2) < alvo.x-(alvo.SIZE/2)) return false;
+  if(this.x-(this.SIZE/2) > alvo.x+(alvo.SIZE/2)) return false;
+  return true;
+}
