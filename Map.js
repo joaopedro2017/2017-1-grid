@@ -37,6 +37,24 @@ Map.prototype.desenhar = function(ctx) {
   this.moverTiros(dt);
 };
 
+Map.prototype.loadMap = function(map) {
+  for (var i = 0; i < this.cells.length; i++) {
+    for (var j = 0; j < this.cells[i].length; j++) {
+      switch (map[i][j]) {
+        case 0:
+        case 1:
+          this.cells[i][j] = map[i][j];
+          break;
+        case 9:
+          this.cells[i][j] = 0;
+          this.criaInimigo(i,j);
+        break;
+        default:
+      }
+    }
+  }
+};
+
 Map.prototype.tiro = function(x, y, dir){
   var tiro = new Sprite();
   tiro.x = x;
@@ -58,24 +76,6 @@ Map.prototype.tiro = function(x, y, dir){
   }
   this.tiros.push(tiro);
 }
-
-Map.prototype.loadMap = function(map) {
-  for (var i = 0; i < this.cells.length; i++) {
-    for (var j = 0; j < this.cells[i].length; j++) {
-      switch (map[i][j]) {
-        case 0:
-        case 1:
-          this.cells[i][j] = map[i][j];
-          break;
-        case 9:
-          this.cells[i][j] = 0;
-          this.criaInimigo(i,j);
-        break;
-        default:
-      }
-    }
-  }
-};
 
 Map.prototype.getIndices = function (sprite) {
    var pos = {};
@@ -102,13 +102,13 @@ Map.prototype.desenharInimigos = function(ctx) {
 Map.prototype.moverInimigos = function(dt) {
   for (var i = 0; i < this.enemies.length; i++) {
     this.enemies[i].mover(dt);
-  }
+  }  
 }
 
 Map.prototype.desenharTiros = function(ctx) {
   for (var i = 0; i < this.tiros.length; i++) {
     this.tiros[i].desenhar(ctx);
-  }
+  }    
 }
 
 Map.prototype.moverTiros = function(dt) {
@@ -140,6 +140,26 @@ Map.prototype.testarAColisao = function(alvo){
     if(alvo.colidirCom(this.enemies[i])){
       this.enemies[i].destroyed = true;
       this.enemies.splice(i,1);
+      vida--;
+    }
+  }
+}
+
+Map.prototype.testarAColisaoTiros = function(map){
+  for (var i = 0; i < this.enemies.length; i++) {
+    for (var j = this.tiros.length-1; j>=0; j--) {
+      if(this.tiros[j].colidirCom(this.enemies[i])){        
+        this.enemies[i].destroyed = true;        
+        this.enemies.splice(i,1);
+        this.tiros[j].destroyed = true;
+        this.tiros.splice(j,1);       
+      }
+    }
+  }
+  for (var j = this.tiros.length-1; j>=0; j--) {
+    if (map.cells[Math.floor(this.tiros[j].y/40)][Math.floor(this.tiros[j].x/40)] == 1){
+      this.tiros[j].destroyed = true;
+      this.tiros.splice(j, 1);      
     }
   }
 }

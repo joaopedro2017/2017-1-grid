@@ -4,6 +4,8 @@ var antes = 0;
 var dt = 0;
 var mapa;
 var pc;
+var vida;
+
 function init(){
   tela = document.getElementsByTagName('canvas')[0];
   tela.width = 600;
@@ -26,9 +28,10 @@ function init(){
   ]);
   pc = new Sprite();
   pc.x = 50;
-  pc.y = 50;
+  pc.y = 50;  
   pc.dir = 1;
   configuraControles();
+  vida = 5;    
 
   requestAnimationFrame(passo);
 }
@@ -39,6 +42,14 @@ function passo(t){
   requestAnimationFrame(passo);
   mapa.persegue(pc);
   mapa.testarAColisao(pc);
+
+  var eVida = document.getElementById("EVida");
+  eVida.innerText = vida;
+
+  var eInimigo = document.getElementById("Inimigo");
+  eInimigo.innerText = mapa.enemies.length;
+
+  mapa.testarAColisaoTiros(mapa);
   pc.moverOnMap(mapa, dt);
   mapa.moverInimigosOnMap(mapa, dt);
   mapa.desenhar(ctx);
@@ -89,15 +100,4 @@ function configuraControles(){
       default:
     }
   });
-
-
-
-
-
-
-
-
-
-
-
 }
