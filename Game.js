@@ -1,10 +1,12 @@
 var tela;
 var ctx;
-var antes = 0;
+var antes = new Date();
+var agora = new Date();
 var dt = 0;
 var mapa;
 var pc;
 var vida;
+var aux;
 
 function init(){
   tela = document.getElementsByTagName('canvas')[0];
@@ -31,30 +33,36 @@ function init(){
   pc.y = 50;  
   pc.dir = 1;
   configuraControles();
-  vida = 5;    
+  vida = 5;
+  aux = 1; 
 
-  requestAnimationFrame(passo);
+  var id = requestAnimationFrame(passo);
 }
 
-function passo(t){
-  dt = (t - antes)/1000;
-  ctx.clearRect(0,0, tela.width, tela.height);
-  requestAnimationFrame(passo);
+function passo(){
+  id = requestAnimationFrame(passo);
+  agora = new Date();
+  dt = (agora - antes)/1000;
+
+  ctx.clearRect(0,0, tela.width, tela.height); 
+  detalhesGame(vida, mapa);
+
   mapa.persegue(pc);
-  mapa.testarAColisao(pc);
-
-  var eVida = document.getElementById("EVida");
-  eVida.innerText = vida;
-
-  var eInimigo = document.getElementById("Inimigo");
-  eInimigo.innerText = mapa.enemies.length;
-
+  mapa.testarAColisao(pc); 
   mapa.testarAColisaoTiros(mapa);
   pc.moverOnMap(mapa, dt);
   mapa.moverInimigosOnMap(mapa, dt);
   mapa.desenhar(ctx);
   pc.desenhar(ctx);
-  antes = t;
+  antes = agora;
+}
+
+function detalhesGame(vida, mapa){
+  var eVida = document.getElementById("EVida");
+  eVida.innerText = vida;
+
+  var eInimigo = document.getElementById("Inimigo");
+  eInimigo.innerText = mapa.enemies.length;
 }
 
 function configuraControles(){
@@ -79,6 +87,17 @@ function configuraControles(){
           pc.vy = +100;
           pc.dir = 4
           e.preventDefault();
+        break;
+        case 80:
+          if(aux == 1){
+            cancelAnimationFrame(id);           
+            aux = 2;
+          }
+          else if(aux == 2){
+            antes = new Date();                      
+            requestAnimationFrame(passo);
+            aux = 1;            
+          }
         break;
       case 32:
           mapa.tiro(pc.x, pc.y, pc.dir);
