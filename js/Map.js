@@ -59,7 +59,8 @@ Map.prototype.tiro = function(x, y, dir){
   var tiro = new Sprite();
   tiro.x = x;
   tiro.y = y;
-  tiro.color = "gold";
+  tiro.SIZE = 7;
+  tiro.color = "red";
   switch (dir){
     case 1:
       tiro.vx = -200;
@@ -146,13 +147,14 @@ Map.prototype.testarAColisao = function(alvo){
 }
 
 Map.prototype.testarAColisaoTiros = function(map){
-  for (var i = 0; i < this.enemies.length; i++) {
+  for (var i = this.enemies.length-1; i >= 0; i--) {
     for (var j = this.tiros.length-1; j>=0; j--) {
       if(this.tiros[j].colidirCom(this.enemies[i])){        
         this.enemies[i].destroyed = true;        
         this.enemies.splice(i,1);
         this.tiros[j].destroyed = true;
-        this.tiros.splice(j,1);       
+        this.tiros.splice(j,1);
+        break;      
       }
     }
   }

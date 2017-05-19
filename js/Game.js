@@ -30,7 +30,8 @@ function init(){
   ]);
   pc = new Sprite();
   pc.x = 50;
-  pc.y = 50;  
+  pc.y = 50;
+  pc.color = "blue";  
   pc.dir = 1;
   configuraControles();
   vida = 5;
@@ -74,7 +75,9 @@ function configuraControles(){
           e.preventDefault();
         break;
       case 38:
-          pc.vy = -100;
+          if(pc.vy === 0){
+            pc.vy -= 200;
+          }
           pc.dir = 2;
           e.preventDefault();
         break;
