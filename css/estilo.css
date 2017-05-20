@@ -1,0 +1,8 @@
+output{	
+	color: red;	
+}
+h2{
+	color: white;
+	background-color: black;
+	width: 600px;
+}

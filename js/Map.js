@@ -93,7 +93,6 @@ Map.prototype.criaInimigo = function (l,c) {
   this.enemies.push(inimigo);
 };
 
-
 Map.prototype.desenharInimigos = function(ctx) {
   for (var i = 0; i < this.enemies.length; i++) {
     this.enemies[i].desenhar(ctx);
@@ -101,9 +100,15 @@ Map.prototype.desenharInimigos = function(ctx) {
 }
 
 Map.prototype.moverInimigos = function(dt) {
-  for (var i = 0; i < this.enemies.length; i++) {
+  for (var i = this.enemies.length-1; i >= 0; i--){    
     this.enemies[i].mover(dt);
   }  
+}
+
+Map.prototype.moverInimigosOnMap = function(map, dt) {
+  for (var i = this.enemies.length-1; i >= 0; i--) {    
+    this.enemies[i].moverOnMap(map,dt);    
+  }
 }
 
 Map.prototype.desenharTiros = function(ctx) {
@@ -121,12 +126,6 @@ Map.prototype.moverTiros = function(dt) {
 Map.prototype.moverTirosOnMap = function(map, dt) {
   for (var i = 0; i < this.tiros.length; i++) {
     this.tiros[i].moverOnMap(map,dt);
-  }
-}
-
-Map.prototype.moverInimigosOnMap = function(map, dt) {
-  for (var i = 0; i < this.enemies.length; i++) {
-    this.enemies[i].moverOnMap(map,dt);
   }
 }
 
