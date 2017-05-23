@@ -21,7 +21,15 @@ Map.prototype.desenhar = function(ctx) {
         case 0:
           break;
         case 1:
-          ctx.fillStyle = 'brown';
+          if((lvl % 4) == 0){
+            ctx.fillStyle = 'wheat';
+          } else if((lvl % 4) == 1){
+            ctx.fillStyle = 'burlywood'
+          } else if((lvl % 4) == 2){
+            ctx.fillStyle = 'sienna'
+          } else if((lvl % 4) == 3){
+            ctx.fillStyle = 'seaGreen'
+          }
           ctx.strokeStyle = 'chocolate';
           ctx.fillRect(j * this.SIZE, i * this.SIZE, this.SIZE, this.SIZE);
           ctx.lineWidth = 3;
@@ -29,7 +37,7 @@ Map.prototype.desenhar = function(ctx) {
           break;
         case 2:
           if(this.enemies.length == 0){
-            ctx.fillStyle = 'yellow';
+            ctx.fillStyle = 'goldenrod';
             ctx.strokeStyle = 'chocolate';
             ctx.fillRect(j * this.SIZE, i * this.SIZE, this.SIZE, this.SIZE);
             ctx.lineWidth = 3;
@@ -38,7 +46,7 @@ Map.prototype.desenhar = function(ctx) {
           break;
         case 3:
           if(this.chave == 3){
-            ctx.fillStyle = 'green';
+            ctx.fillStyle = 'darkSeaGreen';
             ctx.strokeStyle = 'chocolate';
             ctx.fillRect(j * this.SIZE, i * this.SIZE, this.SIZE, this.SIZE);
             ctx.lineWidth = 3;
@@ -120,8 +128,9 @@ Map.prototype.criaInimigo = function (l,c) {
 
 Map.prototype.desenharInimigos = function(ctx) {
   for (var i = 0; i < this.enemies.length; i++) {
-    this.enemies[i].desenhar(ctx);
-  }
+    var f = i * 10;
+    this.enemies[i].desenhar(ctx);    
+  }  
 }
 
 Map.prototype.moverInimigos = function(dt) {
@@ -207,7 +216,7 @@ Map.prototype.alterarLevel = function(map){
         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
         [1,0,9,1,0,0,0,0,1,0,0,0,1,9,1],
         [1,0,1,1,1,0,1,0,1,0,9,0,1,0,1],
-        [1,2,1,1,1,9,1,9,1,0,0,0,1,3,1],
+        [1,2,1,1,1,9,1,9,1,0,0,0,0,3,1],
         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
       ]);
     } else if ((lvl % 4) == 1){

@@ -45,14 +45,14 @@ function passo(){
   detalhesGame(id);
   ctx.clearRect(0,0, tela.width, tela.height);  
 
+  mapa.alterarLevel(mapa);
+  mapa.desenhar(ctx);  
   mapa.persegue(pc);
   mapa.testarAColisao(pc); 
   mapa.testarAColisaoTiros(mapa);
   pc.moverOnMap(mapa, dt);
-  mapa.moverInimigosOnMap(mapa, dt);
-  mapa.desenhar(ctx);
-  pc.desenhar(ctx);
-  mapa.alterarLevel(mapa);
+  mapa.moverInimigosOnMap(mapa, dt);  
+  pc.desenhar(ctx);  
   antes = agora;
 }
 
@@ -66,8 +66,7 @@ function detalhesGame(id){
   var eLvl = document.getElementById("nivel");
   eLvl.innerText = lvl;
 
-  if(vida == 0){
-    ctx.clearRect(0,0, tela.width, tela.height);
+  if(vida == 0){    
     cancelAnimationFrame(id);
   }
 }
@@ -102,7 +101,20 @@ function configuraControles(){
           e.preventDefault();
         break;
       case 80:
-        if(aux == 1){                    
+        if(aux == 1){
+          var txt = "Pausa";
+          var txt2 = "Para Ø";
+          var txt3 = "Café!";
+          //ctx.clearRect(0,0, tela.width, tela.height);
+          ctx.fillStyle = "#9AC0CD";
+          ctx.fillRect(75, 75, 450, 330);
+          ctx.font = "100px Arial";
+          ctx.fillStyle = "black";
+
+          ctx.fillText(txt, 80, 175);
+          ctx.fillText(txt2, 130, 275);
+          ctx.fillText(txt3, 180, 375);
+
           cancelAnimationFrame(id);                    
           aux = 2;
         }
