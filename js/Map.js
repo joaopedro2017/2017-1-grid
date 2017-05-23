@@ -3,6 +3,7 @@ function Map(l, c) {
   this.cells = [];
   this.enemies = [];
   this.tiros = [];
+  this.chave = 0;
 
   for (var i = 0; i < l; i++) {
     this.cells[i] = [];
@@ -26,6 +27,24 @@ Map.prototype.desenhar = function(ctx) {
           ctx.lineWidth = 3;
           ctx.strokeRect(j * this.SIZE, i * this.SIZE, this.SIZE, this.SIZE);
           break;
+        case 2:
+          if(this.enemies.length == 0){
+            ctx.fillStyle = 'yellow';
+            ctx.strokeStyle = 'chocolate';
+            ctx.fillRect(j * this.SIZE, i * this.SIZE, this.SIZE, this.SIZE);
+            ctx.lineWidth = 3;
+            ctx.strokeRect(j * this.SIZE, i * this.SIZE, this.SIZE, this.SIZE);
+          }
+          break;
+        case 3:
+          if(this.chave == 3){
+            ctx.fillStyle = 'green';
+            ctx.strokeStyle = 'chocolate';
+            ctx.fillRect(j * this.SIZE, i * this.SIZE, this.SIZE, this.SIZE);
+            ctx.lineWidth = 3;
+            ctx.strokeRect(j * this.SIZE, i * this.SIZE, this.SIZE, this.SIZE);
+          }
+          break;
         default:
           ctx.fillStyle = 'red';
           ctx.fillRect(j * this.SIZE, i * this.SIZE, this.SIZE, this.SIZE);
@@ -45,6 +64,12 @@ Map.prototype.loadMap = function(map) {
         case 1:
           this.cells[i][j] = map[i][j];
           break;
+        case 2:
+          this.cells[i][j] = map[i][j];
+          break;
+        case 3:
+          this.cells[i][j] = map[i][j];
+          break;       
         case 9:
           this.cells[i][j] = 0;
           this.criaInimigo(i,j);
@@ -100,13 +125,13 @@ Map.prototype.desenharInimigos = function(ctx) {
 }
 
 Map.prototype.moverInimigos = function(dt) {
-  for (var i = this.enemies.length-1; i >= 0; i--){    
+  for (var i = 0; i < this.enemies.length; i++) {    
     this.enemies[i].mover(dt);
   }  
 }
 
 Map.prototype.moverInimigosOnMap = function(map, dt) {
-  for (var i = this.enemies.length-1; i >= 0; i--) {    
+  for (var i = 0; i < this.enemies.length; i++) {    
     this.enemies[i].moverOnMap(map,dt);    
   }
 }
@@ -140,6 +165,8 @@ Map.prototype.testarAColisao = function(alvo){
     if(alvo.colidirCom(this.enemies[i])){
       this.enemies[i].destroyed = true;
       this.enemies.splice(i,1);
+      alvo.x = 100;
+      alvo.y = 100;
       vida--;
     }
   }
@@ -162,5 +189,76 @@ Map.prototype.testarAColisaoTiros = function(map){
       this.tiros[j].destroyed = true;
       this.tiros.splice(j, 1);      
     }
+  }
+}
+
+Map.prototype.alterarLevel = function(map){
+  if (map.cells[Math.floor(pc.y/40)][Math.floor(pc.x/40)] == 2){
+    lvl = lvl + 1;
+    if ((lvl % 4) == 0){
+      casasMapa=([
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,0,0,1,0,0,0,0,9,0,0,0,0,0,1],
+        [1,0,0,1,0,9,0,0,0,0,0,0,1,9,1],
+        [1,0,0,1,0,0,0,0,0,0,0,0,1,0,1],
+        [1,0,0,0,0,0,0,0,0,0,1,9,0,0,1],
+        [1,0,9,0,0,0,0,9,0,0,1,0,1,3,1],
+        [1,1,1,1,1,1,0,0,0,1,1,1,1,1,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,9,1,0,0,0,0,1,0,0,0,1,9,1],
+        [1,0,1,1,1,0,1,0,1,0,9,0,1,0,1],
+        [1,2,1,1,1,9,1,9,1,0,0,0,1,3,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+      ]);
+    } else if ((lvl % 4) == 1){
+      casasMapa=([
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,0,1,1,0,9,0,1,1,9,0,1],
+        [1,0,0,0,0,1,1,0,0,0,1,1,0,0,1],
+        [1,3,0,0,0,1,1,0,0,0,1,1,0,0,1],
+        [1,1,1,1,0,0,0,0,0,0,9,0,0,0,1],
+        [1,9,0,0,0,0,0,0,0,0,1,1,0,9,1],
+        [1,0,9,0,0,0,0,0,0,0,1,1,0,0,1],
+        [1,1,1,1,1,1,1,1,1,0,0,0,0,0,1],
+        [1,0,0,0,0,9,0,0,0,0,0,0,0,9,1],
+        [1,0,9,0,0,1,1,0,0,9,0,0,1,1,1],
+        [1,3,0,0,1,1,1,0,0,0,0,0,0,2,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+      ]);      
+    } else if ((lvl % 4) == 2){
+      casasMapa=([
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,0,1,1,9,0,0,1,0,0,2,1],
+        [1,0,0,0,0,1,1,0,0,0,0,0,1,1,1],
+        [1,0,0,0,0,1,1,0,0,0,9,0,9,0,1],
+        [1,1,1,1,0,0,0,0,0,0,0,1,0,0,1],
+        [1,0,0,0,0,0,9,0,0,0,0,1,0,3,1],
+        [1,0,9,0,0,0,0,0,0,0,1,1,1,1,1],
+        [1,1,1,1,0,0,0,0,9,0,0,0,9,0,1],
+        [1,0,0,0,0,0,9,0,1,0,0,0,0,0,1],
+        [1,9,0,0,9,1,1,0,1,9,0,0,0,0,1],
+        [1,0,0,0,1,1,1,3,1,1,0,0,0,9,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+      ]);      
+    } else if ((lvl % 4) == 3){
+      casasMapa=([
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,0,0,1,0,0,0,0,9,0,0,0,9,0,1],
+        [1,0,0,1,0,9,0,0,0,0,0,0,1,9,1],
+        [1,0,0,1,0,0,0,0,0,0,0,0,1,0,1],
+        [1,0,0,0,0,0,0,0,0,0,1,9,0,0,1],
+        [1,0,9,0,0,0,0,9,0,9,1,0,1,3,1],
+        [1,1,1,1,1,1,0,0,0,1,1,1,1,1,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,9,1,0,0,0,0,1,0,0,0,9,9,1],
+        [1,0,1,1,1,0,1,0,1,0,9,0,1,0,1],
+        [1,2,1,1,1,9,1,9,0,0,0,1,1,3,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+      ]);      
+    }
+
+    mapa.loadMap(casasMapa);
+    pc.x = 100;
+    pc.y = 100;
   }
 }

@@ -1,13 +1,9 @@
-var tela;
-var ctx;
+var tela, ctx;
 var antes = new Date();
 var agora = new Date();
 var dt = 0;
-var mapa;
-var pc;
-var vida = 5;
-var aux = 1;
-var lvl = 0;
+var mapa, pc;
+var vida = 5, lvl = 0, aux = 1;
 
 function init(){
   tela = document.getElementsByTagName('canvas')[0];
@@ -15,36 +11,38 @@ function init(){
   tela.height = 480;
   ctx = tela.getContext('2d');
   mapa = new Map(12, 15);
+  
   mapa.loadMap([
-    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-    [1,0,0,0,1,0,0,9,1,0,0,0,0,9,1],
-    [1,0,0,0,1,0,0,0,1,0,0,0,0,0,1],
-    [1,0,0,9,1,0,0,0,0,0,9,0,0,0,1],
-    [1,0,0,0,0,0,0,0,1,0,1,0,0,0,1],
-    [1,0,0,0,0,0,0,1,1,0,1,1,0,0,1],
-    [1,0,0,0,0,1,1,1,1,1,1,1,1,0,1],
-    [1,0,0,0,0,0,9,0,0,0,0,0,9,0,1],
-    [1,1,1,1,0,0,0,0,0,0,0,0,0,0,1],
-    [1,0,0,0,0,1,1,1,1,0,0,0,1,1,1],
-    [1,0,9,0,0,0,0,0,0,0,0,9,1,1,1],
-    [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
-  ]);
+      [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+      [1,0,0,0,1,0,9,0,1,0,0,0,0,0,1],
+      [1,0,0,0,1,0,0,0,1,0,0,0,9,0,1],
+      [1,0,0,0,1,0,0,0,0,0,9,0,0,0,1],
+      [1,0,0,0,9,0,0,0,1,0,1,3,0,0,1],
+      [1,0,0,0,0,0,0,1,1,2,1,1,0,0,1],
+      [1,0,0,0,0,1,1,1,1,1,1,1,1,0,1],
+      [1,3,0,0,0,0,9,0,0,0,0,0,9,0,1],
+      [1,1,1,1,0,0,0,0,0,0,0,0,0,0,1],
+      [1,0,0,0,0,1,1,1,1,0,0,0,1,0,1],
+      [1,0,9,0,0,0,0,0,0,0,0,9,1,1,1],
+      [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+    ]);    
+  
   pc = new Sprite();
   pc.x = 50;
   pc.y = 50;
-  pc.color = "blue";  
+  pc.color = "#159";  
   pc.dir = 1;
   configuraControles();
 
   var id = requestAnimationFrame(passo);
 }
 
-function passo(){
-  detalhesGame();
-  id = requestAnimationFrame(passo);
+function passo(){  
+  id = requestAnimationFrame(passo);  
   agora = new Date();
   dt = (agora - antes)/1000;
-
+  
+  detalhesGame(id);
   ctx.clearRect(0,0, tela.width, tela.height);  
 
   mapa.persegue(pc);
@@ -54,10 +52,11 @@ function passo(){
   mapa.moverInimigosOnMap(mapa, dt);
   mapa.desenhar(ctx);
   pc.desenhar(ctx);
+  mapa.alterarLevel(mapa);
   antes = agora;
 }
 
-function detalhesGame(){
+function detalhesGame(id){
   var eVida = document.getElementById("EVida");
   eVida.innerText = vida;
 
@@ -66,6 +65,11 @@ function detalhesGame(){
 
   var eLvl = document.getElementById("nivel");
   eLvl.innerText = lvl;
+
+  if(vida == 0){
+    ctx.clearRect(0,0, tela.width, tela.height);
+    cancelAnimationFrame(id);
+  }
 }
 
 function configuraControles(){
@@ -107,6 +111,11 @@ function configuraControles(){
           requestAnimationFrame(passo);          
           aux = 1;            
         }
+      break;
+      case 13:
+          if(vida == 0){
+            vida = 5;
+          }
       break;
       case 32:
           mapa.tiro(pc.x, pc.y, pc.dir);
