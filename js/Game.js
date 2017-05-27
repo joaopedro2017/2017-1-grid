@@ -7,29 +7,29 @@ var vida = 5, lvl = 0, aux = 1;
 
 function init(){
   tela = document.getElementsByTagName('canvas')[0];
-  tela.width = 600;
+  tela.width = 600 ;
   tela.height = 480;
   ctx = tela.getContext('2d');
   mapa = new Map(12, 15);
   
   mapa.loadMap([
       [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-      [1,0,0,0,1,0,9,0,1,0,0,0,0,0,1],
-      [1,0,0,0,1,0,0,0,1,0,0,0,9,0,1],
-      [1,0,0,0,1,0,0,0,0,0,9,0,0,0,1],
-      [1,0,0,0,9,0,0,0,1,0,1,3,0,0,1],
-      [1,0,0,0,0,0,0,1,1,2,1,1,0,0,1],
-      [1,0,0,0,0,1,1,1,1,1,1,1,1,0,1],
-      [1,3,0,0,0,0,9,0,0,0,0,0,9,0,1],
-      [1,1,1,1,0,0,0,0,0,0,0,0,0,0,1],
-      [1,0,0,0,0,1,1,1,1,0,0,0,1,0,1],
-      [1,0,9,0,0,0,0,0,0,0,0,9,1,1,1],
+      [1,0,0,1,0,0,0,0,9,0,0,0,0,0,1],
+      [1,0,0,1,0,9,0,0,0,0,0,0,1,0,1],
+      [1,0,0,1,0,0,0,0,0,0,0,0,1,0,1],
+      [1,0,0,0,0,0,0,0,0,0,1,9,0,0,1],
+      [1,0,0,0,0,0,0,0,0,9,1,0,1,3,1],
+      [1,1,1,1,1,1,0,0,0,1,1,1,1,1,1],
+      [1,0,0,0,0,0,0,0,0,0,9,0,0,0,1],
+      [1,0,0,1,0,0,0,0,1,0,0,0,9,9,1],
+      [1,0,1,1,1,0,1,0,1,0,9,0,1,0,1],
+      [1,2,1,1,1,9,1,9,0,0,0,1,1,1,1],
       [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
-    ]);    
+    ]);   
   
   pc = new Sprite();
-  pc.x = 50;
-  pc.y = 50;
+  pc.x = 100;
+  pc.y = 100;
   pc.color = "#159";  
   pc.dir = 1;
   configuraControles();
@@ -46,7 +46,8 @@ function passo(){
   ctx.clearRect(0,0, tela.width, tela.height);  
 
   mapa.alterarLevel(mapa);
-  mapa.desenhar(ctx);  
+  mapa.revelarChave(mapa);
+  mapa.desenhar(ctx);
   mapa.persegue(pc);
   mapa.testarAColisao(pc); 
   mapa.testarAColisaoTiros(mapa);
@@ -58,7 +59,7 @@ function passo(){
 
 function detalhesGame(id){
   var eVida = document.getElementById("EVida");
-  eVida.innerText = vida;
+  eVida.innerText = vida + "♥";
 
   var eInimigo = document.getElementById("Inimigo");
   eInimigo.innerText = mapa.enemies.length; 
@@ -67,7 +68,20 @@ function detalhesGame(id){
   eLvl.innerText = lvl;
 
   if(vida == 0){    
-    cancelAnimationFrame(id);
+    var txt = "Tecle";
+    var txt2 = "Enter &";
+    var txt3 = "Reinicie!";
+    
+    ctx.fillStyle = "black";    
+    ctx.fillRect(0, 0, tela.width, tela.height);                    
+    ctx.font = "100px Arial";
+    ctx.fillStyle = "white";
+    ctx.fillText(txt, 40, 100);
+    ctx.fillText(txt2, 130, 275);
+    ctx.fillText(txt3, 220, 450); 
+    //ctx.globalAlpha = 0.8;
+
+    cancelAnimationFrame(id);    
   }
 }
 
@@ -102,18 +116,19 @@ function configuraControles(){
         break;
       case 80:
         if(aux == 1){
-          var txt = "Pausa";
-          var txt2 = "Para Ø";
+          var txt = "Pausa ►! ";
+          var txt2 = "Para ☻";
           var txt3 = "Café!";
-          //ctx.clearRect(0,0, tela.width, tela.height);
+          
           ctx.fillStyle = "#9AC0CD";
-          ctx.fillRect(75, 75, 450, 330);
+          ctx.globalAlpha = 0.9;
+          ctx.fillRect(0, 0, tela.width, tela.height);                    
           ctx.font = "100px Arial";
-          ctx.fillStyle = "black";
+          ctx.fillStyle = "darkRed";
 
-          ctx.fillText(txt, 80, 175);
+          ctx.fillText(txt, 40, 100);
           ctx.fillText(txt2, 130, 275);
-          ctx.fillText(txt3, 180, 375);
+          ctx.fillText(txt3, 220, 450);
 
           cancelAnimationFrame(id);                    
           aux = 2;
@@ -127,6 +142,25 @@ function configuraControles(){
       case 13:
           if(vida == 0){
             vida = 5;
+            lvl = 0;
+            ctx.globalAlpha = 1;
+            mapa.enemies.length = 0;
+            mapa.loadMap([
+              [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+              [1,0,0,0,1,0,9,0,1,0,0,0,0,0,1],
+              [1,0,0,0,1,0,0,0,1,0,0,0,9,0,1],
+              [1,0,0,0,1,0,0,0,0,0,9,0,0,0,1],
+              [1,0,0,0,9,0,0,0,1,0,1,0,0,0,1],
+              [1,0,0,0,0,0,0,1,1,2,1,1,0,0,1],
+              [1,0,0,0,0,1,1,1,1,1,1,1,1,0,1],
+              [1,3,0,0,0,0,9,0,0,0,0,0,9,0,1],
+              [1,1,1,1,0,0,0,0,0,0,0,0,0,0,1],
+              [1,0,0,0,0,1,1,1,1,0,0,0,1,0,1],
+              [1,0,9,0,0,0,0,0,0,0,0,9,1,1,1],
+              [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+            ]);
+            antes = new Date();                      
+            requestAnimationFrame(passo);
           }
       break;
       case 32:
@@ -146,8 +180,7 @@ function configuraControles(){
       case 38:
       case 87:
       case 40:
-      case 83:
-          pc.vy = 0;
+      case 83:          
           e.preventDefault();
         break;
       default:

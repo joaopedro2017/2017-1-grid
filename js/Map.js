@@ -3,6 +3,7 @@ function Map(l, c) {
   this.cells = [];
   this.enemies = [];
   this.tiros = [];
+  this.cont = 0;
   this.chave = 0;
 
   for (var i = 0; i < l; i++) {
@@ -19,6 +20,8 @@ Map.prototype.desenhar = function(ctx) {
     for (var j = 0; j < linha.length; j++) {
       switch (this.cells[i][j]) {
         case 0:
+        case 2:
+        case 3: 
           break;
         case 1:
           if((lvl % 4) == 0){
@@ -35,23 +38,19 @@ Map.prototype.desenhar = function(ctx) {
           ctx.lineWidth = 3;
           ctx.strokeRect(j * this.SIZE, i * this.SIZE, this.SIZE, this.SIZE);
           break;
-        case 2:
-          if(this.enemies.length == 0){
-            ctx.fillStyle = 'goldenrod';
-            ctx.strokeStyle = 'chocolate';
-            ctx.fillRect(j * this.SIZE, i * this.SIZE, this.SIZE, this.SIZE);
-            ctx.lineWidth = 3;
-            ctx.strokeRect(j * this.SIZE, i * this.SIZE, this.SIZE, this.SIZE);
-          }
-          break;
-        case 3:
-          if(this.chave == 3){
-            ctx.fillStyle = 'darkSeaGreen';
-            ctx.strokeStyle = 'chocolate';
-            ctx.fillRect(j * this.SIZE, i * this.SIZE, this.SIZE, this.SIZE);
-            ctx.lineWidth = 3;
-            ctx.strokeRect(j * this.SIZE, i * this.SIZE, this.SIZE, this.SIZE);
-          }
+        case 4:          
+          ctx.fillStyle = 'goldenrod';
+          ctx.strokeStyle = 'chocolate';
+          ctx.fillRect(j * this.SIZE, i * this.SIZE, this.SIZE, this.SIZE);
+          ctx.lineWidth = 3;
+          ctx.strokeRect(j * this.SIZE, i * this.SIZE, this.SIZE, this.SIZE);        
+          break;         
+        case 5:
+          ctx.fillStyle = 'yellow';
+          ctx.strokeStyle = 'chocolate';
+          ctx.fillRect(j * this.SIZE, i * this.SIZE, this.SIZE, this.SIZE);
+          ctx.lineWidth = 3;
+          ctx.strokeRect(j * this.SIZE, i * this.SIZE, this.SIZE, this.SIZE);
           break;
         default:
           ctx.fillStyle = 'red';
@@ -67,19 +66,17 @@ Map.prototype.desenhar = function(ctx) {
 Map.prototype.loadMap = function(map) {
   for (var i = 0; i < this.cells.length; i++) {
     for (var j = 0; j < this.cells[i].length; j++) {
-      switch (map[i][j]) {
+     switch (map[i][j]) {
         case 0:
         case 1:
-          this.cells[i][j] = map[i][j];
-          break;
         case 2:
+        case 4:
+        case 5:
+        case 3:        
           this.cells[i][j] = map[i][j];
-          break;
-        case 3:
-          this.cells[i][j] = map[i][j];
-          break;       
+          break;                         
         case 9:
-          this.cells[i][j] = 0;
+          this.cells[i][j] = 0;          
           this.criaInimigo(i,j);
         break;
         default:
@@ -87,6 +84,34 @@ Map.prototype.loadMap = function(map) {
     }
   }
 };
+
+Map.prototype.revelarChave = function(map){
+  if(this.cont >= 4){
+    for (var i = 0; i < this.cells.length; i++) {
+      var linha = this.cells[i];
+      for (var j = 0; j < linha.length; j++) {
+        switch (this.cells[i][j]) {
+          case 3:
+            this.cells[i][j] = 5;
+          break;
+        }
+      }
+    }
+  }
+  if (map.cells[Math.floor(pc.y/40)][Math.floor(pc.x/40)] == 5){
+    for (var i = 0; i < this.cells.length; i++) {
+      var linha = this.cells[i];
+      for (var j = 0; j < linha.length; j++) {
+        switch (this.cells[i][j]) {
+          case 5:
+            this.cells[i][j] = 0;
+          break
+        }
+      }
+    }
+    this.chave = 1;
+  }
+}
 
 Map.prototype.tiro = function(x, y, dir){
   var tiro = new Sprite();
@@ -184,7 +209,8 @@ Map.prototype.testarAColisao = function(alvo){
 Map.prototype.testarAColisaoTiros = function(map){
   for (var i = this.enemies.length-1; i >= 0; i--) {
     for (var j = this.tiros.length-1; j>=0; j--) {
-      if(this.tiros[j].colidirCom(this.enemies[i])){        
+      if(this.tiros[j].colidirCom(this.enemies[i])){
+        this.cont++;       
         this.enemies[i].destroyed = true;        
         this.enemies.splice(i,1);
         this.tiros[j].destroyed = true;
@@ -202,21 +228,39 @@ Map.prototype.testarAColisaoTiros = function(map){
 }
 
 Map.prototype.alterarLevel = function(map){
-  if (map.cells[Math.floor(pc.y/40)][Math.floor(pc.x/40)] == 2){
+  if(this.chave == 1){
+    for (var i = 0; i < this.cells.length; i++) {
+      var linha = this.cells[i];
+      for (var j = 0; j < linha.length; j++) {
+        switch (this.cells[i][j]) {
+          case 2:
+            this.cells[i][j] = 4;
+          break
+        }
+      }
+    }
+  }
+  if (map.cells[Math.floor(pc.y/40)][Math.floor(pc.x/40)] == 4){
+    
     lvl = lvl + 1;
+    this.chave = 0;
+    this.cont = 0;
+    this.enemies.length = 0;
+
+
     if ((lvl % 4) == 0){
       casasMapa=([
         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-        [1,0,0,1,0,0,0,0,9,0,0,0,0,0,1],
-        [1,0,0,1,0,9,0,0,0,0,0,0,1,9,1],
-        [1,0,0,1,0,0,0,0,0,0,0,0,1,0,1],
-        [1,0,0,0,0,0,0,0,0,0,1,9,0,0,1],
-        [1,0,9,0,0,0,0,9,0,0,1,0,1,3,1],
-        [1,1,1,1,1,1,0,0,0,1,1,1,1,1,1],
-        [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,9,1,0,0,0,0,1,0,0,0,1,9,1],
-        [1,0,1,1,1,0,1,0,1,0,9,0,1,0,1],
-        [1,2,1,1,1,9,1,9,1,0,0,0,0,3,1],
+        [1,0,0,0,1,0,9,0,1,0,0,0,0,0,1],
+        [1,0,0,0,1,0,0,0,1,0,0,0,9,0,1],
+        [1,0,0,0,1,0,0,0,0,0,9,0,0,0,1],
+        [1,0,0,0,9,0,0,0,1,0,1,0,0,0,1],
+        [1,0,0,0,0,0,0,1,1,2,1,1,0,0,1],
+        [1,0,0,0,0,1,1,1,1,1,1,1,1,0,1],
+        [1,3,0,0,0,0,9,0,0,0,0,0,9,0,1],
+        [1,1,1,1,0,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,1,1,1,1,0,0,0,1,0,1],
+        [1,0,9,0,0,0,0,0,0,0,0,9,1,1,1],
         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
       ]);
     } else if ((lvl % 4) == 1){
@@ -224,14 +268,14 @@ Map.prototype.alterarLevel = function(map){
         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
         [1,0,0,0,0,1,1,0,9,0,1,1,9,0,1],
         [1,0,0,0,0,1,1,0,0,0,1,1,0,0,1],
-        [1,3,0,0,0,1,1,0,0,0,1,1,0,0,1],
-        [1,1,1,1,0,0,0,0,0,0,9,0,0,0,1],
-        [1,9,0,0,0,0,0,0,0,0,1,1,0,9,1],
-        [1,0,9,0,0,0,0,0,0,0,1,1,0,0,1],
-        [1,1,1,1,1,1,1,1,1,0,0,0,0,0,1],
+        [1,0,0,0,0,1,1,0,0,0,1,1,0,0,1],
+        [1,3,0,0,0,0,0,0,0,0,9,0,0,0,1],
+        [1,1,1,0,0,0,0,0,0,0,1,1,0,9,1],
+        [1,9,9,0,0,0,0,0,0,0,1,1,0,0,1],
+        [1,1,1,1,1,1,0,1,1,0,0,0,0,0,1],
         [1,0,0,0,0,9,0,0,0,0,0,0,0,9,1],
         [1,0,9,0,0,1,1,0,0,9,0,0,1,1,1],
-        [1,3,0,0,1,1,1,0,0,0,0,0,0,2,1],
+        [1,0,0,0,1,1,1,0,0,0,0,0,0,2,1],
         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
       ]);      
     } else if ((lvl % 4) == 2){
@@ -241,7 +285,7 @@ Map.prototype.alterarLevel = function(map){
         [1,0,0,0,0,1,1,0,0,0,0,0,1,1,1],
         [1,0,0,0,0,1,1,0,0,0,9,0,9,0,1],
         [1,1,1,1,0,0,0,0,0,0,0,1,0,0,1],
-        [1,0,0,0,0,0,9,0,0,0,0,1,0,3,1],
+        [1,0,0,0,0,0,9,0,0,0,0,1,0,0,1],
         [1,0,9,0,0,0,0,0,0,0,1,1,1,1,1],
         [1,1,1,1,0,0,0,0,9,0,0,0,9,0,1],
         [1,0,0,0,0,0,9,0,1,0,0,0,0,0,1],
@@ -252,20 +296,19 @@ Map.prototype.alterarLevel = function(map){
     } else if ((lvl % 4) == 3){
       casasMapa=([
         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-        [1,0,0,1,0,0,0,0,9,0,0,0,9,0,1],
+        [1,0,0,1,0,0,0,0,9,9,0,0,9,0,1],
         [1,0,0,1,0,9,0,0,0,0,0,0,1,9,1],
         [1,0,0,1,0,0,0,0,0,0,0,0,1,0,1],
         [1,0,0,0,0,0,0,0,0,0,1,9,0,0,1],
         [1,0,9,0,0,0,0,9,0,9,1,0,1,3,1],
         [1,1,1,1,1,1,0,0,0,1,1,1,1,1,1],
         [1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,9,1,0,0,0,0,1,0,0,0,9,9,1],
+        [1,0,0,1,0,0,0,0,1,0,0,0,9,9,1],
         [1,0,1,1,1,0,1,0,1,0,9,0,1,0,1],
-        [1,2,1,1,1,9,1,9,0,0,0,1,1,3,1],
+        [1,2,1,1,1,9,1,9,0,0,0,1,1,1,1],
         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
       ]);      
     }
-
     mapa.loadMap(casasMapa);
     pc.x = 100;
     pc.y = 100;
