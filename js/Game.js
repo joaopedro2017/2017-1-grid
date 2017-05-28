@@ -61,7 +61,7 @@ function detalhesGame(id){
     cancelAnimationFrame(id);
     mapa.cont = 0; 
 
-    var txt = "Tecle";
+    var txt = "Tente de novo!";
     var txt2 = "Enter &";
     var txt3 = "Reinicie!";
     
@@ -70,9 +70,9 @@ function detalhesGame(id){
     ctx.fillRect(0, 0, tela.width, tela.height);                    
     ctx.font = "100px Arial";
     ctx.fillStyle = "white";
-    ctx.fillText(txt, 120, 100);
-    ctx.fillText(txt2, 210, 275);
-    ctx.fillText(txt3, 300, 450);            
+    ctx.fillText(txt, 80, 100);
+    ctx.fillText(txt2, 170, 275);
+    ctx.fillText(txt3, 260, 450);            
   } 
 
   if(lvl == 0 && inicio == 1){
@@ -117,10 +117,10 @@ function detalhesGame(id){
     var txt2 = "Tecle Enter";
     var txt3 = "E Reinicie!";
     
-    ctx.fillStyle = "#87CEEB";
+    ctx.fillStyle = "darkRed";
     ctx.fillRect(0, 0, tela.width, tela.height);                    
     ctx.font = "100px Arial";
-    ctx.fillStyle = "#4A708B";
+    ctx.fillStyle = "#FFD700";
     ctx.fillText(txt, 60, 100);
     ctx.fillText(txt2, 190, 275);
     ctx.fillText(txt3, 280, 450);    
@@ -168,9 +168,9 @@ function configuraControles(){
           ctx.font = "100px Arial";
           ctx.fillStyle = "darkRed";
 
-          ctx.fillText(txt, 120, 100);
-          ctx.fillText(txt2, 210, 275);
-          ctx.fillText(txt3, 300, 450);
+          ctx.fillText(txt, 180, 100);
+          ctx.fillText(txt2, 270, 275);
+          ctx.fillText(txt3, 360, 450);
 
           cancelAnimationFrame(id);                    
           aux = 2;

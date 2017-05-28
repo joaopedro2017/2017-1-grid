@@ -145,7 +145,6 @@ Map.prototype.getIndices = function (sprite) {
    return pos;
 };
 
-
 Map.prototype.criaInimigo = function (l,c) {
   var inimigo = new Sprite();
   inimigo.x = (c+0.5)*this.SIZE;
@@ -155,7 +154,6 @@ Map.prototype.criaInimigo = function (l,c) {
 
 Map.prototype.desenharInimigos = function(ctx) {
   for (var i = 0; i < this.enemies.length; i++) {
-    var f = i * 10;
     this.enemies[i].desenhar(ctx);    
   }  
 }
@@ -242,13 +240,11 @@ Map.prototype.alterarLevel = function(map){
       }
     }
   }
-  if (map.cells[Math.floor(pc.y/40)][Math.floor(pc.x/40)] == 4){
-    
+  if (map.cells[Math.floor(pc.y/40)][Math.floor(pc.x/40)] == 4){    
     lvl = lvl + 1;
     this.chave = 0;
     this.cont = 0;
     this.enemies.length = 0;
-
 
     if ((lvl % 4) == 0){
       casasMapa=([
@@ -275,7 +271,7 @@ Map.prototype.alterarLevel = function(map){
         [1,1,1,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,9,1],
         [1,9,9,0,0,0,0,0,9,0,1,1,1,1,1,0,0,0,1,1],
         [1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,9,0,0,0,0,0,0,1,1,1,1,0,0,9,1],
+        [1,0,0,0,0,9,0,0,0,0,0,0,1,1,1,1,0,0,0,1],
         [1,0,9,0,0,1,1,0,9,1,0,0,0,0,0,0,0,1,1,1],
         [1,0,0,0,1,1,1,0,0,1,1,0,0,0,0,0,0,0,0,1],
         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
@@ -307,7 +303,7 @@ Map.prototype.alterarLevel = function(map){
         [1,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,1],
         [1,0,0,1,0,0,0,0,0,0,0,9,0,1,0,0,0,9,9,1],
         [1,0,1,1,1,0,0,1,9,0,0,1,0,1,0,9,0,1,0,1],
-        [1,9,1,1,1,9,0,0,0,0,0,1,9,0,0,0,1,1,1,1],
+        [1,9,1,1,1,9,0,0,0,0,0,0,9,0,0,0,1,1,1,1],
         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
       ]);      
     }
