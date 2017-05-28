@@ -3,48 +3,33 @@ var antes = new Date();
 var agora = new Date();
 var dt = 0;
 var mapa, pc;
-var vida = 5, lvl = 0, aux = 1;
+var vida = 5, lvl = 0, aux = 1, inicio = 1;
 
 function init(){
   tela = document.getElementsByTagName('canvas')[0];
-  tela.width = 600 ;
+  tela.width = 800 ;
   tela.height = 480;
+  tela.style.border = "5px solid black";
+
   ctx = tela.getContext('2d');
-  mapa = new Map(12, 15);
-  
-  mapa.loadMap([
-      [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-      [1,0,0,1,0,0,0,0,9,0,0,0,0,0,1],
-      [1,0,0,1,0,9,0,0,0,0,0,0,1,0,1],
-      [1,0,0,1,0,0,0,0,0,0,0,0,1,0,1],
-      [1,0,0,0,0,0,0,0,0,0,1,9,0,0,1],
-      [1,0,0,0,0,0,0,0,0,9,1,0,1,3,1],
-      [1,1,1,1,1,1,0,0,0,1,1,1,1,1,1],
-      [1,0,0,0,0,0,0,0,0,0,9,0,0,0,1],
-      [1,0,0,1,0,0,0,0,1,0,0,0,9,9,1],
-      [1,0,1,1,1,0,1,0,1,0,9,0,1,0,1],
-      [1,2,1,1,1,9,1,9,0,0,0,1,1,1,1],
-      [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
-    ]);   
+  mapa = new Map(12, 20);
   
   pc = new Sprite();
   pc.x = 100;
   pc.y = 100;
   pc.color = "#159";  
   pc.dir = 1;
-  configuraControles();
 
+  configuraControles();
   var id = requestAnimationFrame(passo);
 }
 
 function passo(){  
   id = requestAnimationFrame(passo);  
   agora = new Date();
-  dt = (agora - antes)/1000;
-  
-  detalhesGame(id);
+  dt = (agora - antes)/1000; 
   ctx.clearRect(0,0, tela.width, tela.height);  
-
+  
   mapa.alterarLevel(mapa);
   mapa.revelarChave(mapa);
   mapa.desenhar(ctx);
@@ -53,7 +38,9 @@ function passo(){
   mapa.testarAColisaoTiros(mapa);
   pc.moverOnMap(mapa, dt);
   mapa.moverInimigosOnMap(mapa, dt);  
-  pc.desenhar(ctx);  
+  pc.desenhar(ctx);
+  detalhesGame(id);
+    
   antes = agora;
 }
 
@@ -67,21 +54,76 @@ function detalhesGame(id){
   var eLvl = document.getElementById("nivel");
   eLvl.innerText = lvl;
 
-  if(vida == 0){    
+  var eChv = document.getElementById("chv");
+  eChv.innerText = mapa.chave;
+
+  if(vida == 0){ 
+    cancelAnimationFrame(id);
+    mapa.cont = 0; 
+
     var txt = "Tecle";
     var txt2 = "Enter &";
     var txt3 = "Reinicie!";
     
-    ctx.fillStyle = "black";    
+    ctx.fillStyle = "black"; 
+    ctx.globalAlpha = 0.8;  
     ctx.fillRect(0, 0, tela.width, tela.height);                    
     ctx.font = "100px Arial";
     ctx.fillStyle = "white";
-    ctx.fillText(txt, 40, 100);
-    ctx.fillText(txt2, 130, 275);
-    ctx.fillText(txt3, 220, 450); 
-    //ctx.globalAlpha = 0.8;
+    ctx.fillText(txt, 120, 100);
+    ctx.fillText(txt2, 210, 275);
+    ctx.fillText(txt3, 300, 450);            
+  } 
 
-    cancelAnimationFrame(id);    
+  if(lvl == 0 && inicio == 1){
+    cancelAnimationFrame(id);
+    
+    var txt = "Welcome to the Game! ";
+    var txt2 = "Comandos: "
+    var txt3 = "Movimentos     Pausa    Atirar    Iniciar";
+
+    var txt4 = "◙ Ao atingir cinco inimigos, revela a chave";
+    var txt5 = "◙ Use a chave para desbloquear a porta";
+    var txt6 = "◙ Nível máximo: 12";
+    var txt7 = "[w]               [↑]";
+    var txt8 = "[A] [S] [D]   [←] [↓] [→]      [P]       [Space]    [Enter]";
+    
+    ctx.fillStyle = "#87CEEB";
+    ctx.fillRect(0, 0, tela.width, tela.height);                    
+    ctx.font = "60px Arial";
+    ctx.fillStyle = "darkRed";
+    ctx.fillText(txt, 95, 100);
+
+    ctx.font = "25px Arial";
+    ctx.fillStyle = "#fff";
+    ctx.fillText(txt7, 165,260);
+    ctx.fillText(txt8, 127, 290);    
+
+    ctx.font = "30px Arial";
+    ctx.fillStyle = "#000";
+    ctx.fillText(txt2, 100, 160);
+    ctx.fillText(txt3, 180, 205);
+    ctx.fillText(txt4, 100, 375);
+    ctx.fillText(txt5, 100, 405);
+    ctx.fillText(txt6, 100, 435);       
+  }
+
+  if(lvl == 13 && inicio == 2){
+    cancelAnimationFrame(id);
+    lvl = 0;
+    inicio = 1;
+    
+    var txt = "Nível Máximo!";
+    var txt2 = "Tecle Enter";
+    var txt3 = "E Reinicie!";
+    
+    ctx.fillStyle = "#87CEEB";
+    ctx.fillRect(0, 0, tela.width, tela.height);                    
+    ctx.font = "100px Arial";
+    ctx.fillStyle = "#4A708B";
+    ctx.fillText(txt, 60, 100);
+    ctx.fillText(txt2, 190, 275);
+    ctx.fillText(txt3, 280, 450);    
   }
 }
 
@@ -115,52 +157,55 @@ function configuraControles(){
           e.preventDefault();
         break;
       case 80:
-        if(aux == 1){
+        if(aux == 1 && inicio == 2){
           var txt = "Pausa ►! ";
           var txt2 = "Para ☻";
           var txt3 = "Café!";
           
           ctx.fillStyle = "#9AC0CD";
-          ctx.globalAlpha = 0.9;
+          ctx.globalAlpha = 0.8;
           ctx.fillRect(0, 0, tela.width, tela.height);                    
           ctx.font = "100px Arial";
           ctx.fillStyle = "darkRed";
 
-          ctx.fillText(txt, 40, 100);
-          ctx.fillText(txt2, 130, 275);
-          ctx.fillText(txt3, 220, 450);
+          ctx.fillText(txt, 120, 100);
+          ctx.fillText(txt2, 210, 275);
+          ctx.fillText(txt3, 300, 450);
 
           cancelAnimationFrame(id);                    
           aux = 2;
         }
-        else if(aux == 2){                    
+        else if(aux == 2){ 
+          ctx.globalAlpha = 1;                   
           antes = new Date();                      
           requestAnimationFrame(passo);          
           aux = 1;            
         }
       break;
       case 13:
-          if(vida == 0){
+          if(vida == 0 || (lvl == 0 && inicio == 1)){
             vida = 5;
             lvl = 0;
+            inicio = 2;
+            aux = 1;
+            antes = new Date();                      
+            requestAnimationFrame(passo);
             ctx.globalAlpha = 1;
             mapa.enemies.length = 0;
             mapa.loadMap([
-              [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-              [1,0,0,0,1,0,9,0,1,0,0,0,0,0,1],
-              [1,0,0,0,1,0,0,0,1,0,0,0,9,0,1],
-              [1,0,0,0,1,0,0,0,0,0,9,0,0,0,1],
-              [1,0,0,0,9,0,0,0,1,0,1,0,0,0,1],
-              [1,0,0,0,0,0,0,1,1,2,1,1,0,0,1],
-              [1,0,0,0,0,1,1,1,1,1,1,1,1,0,1],
-              [1,3,0,0,0,0,9,0,0,0,0,0,9,0,1],
-              [1,1,1,1,0,0,0,0,0,0,0,0,0,0,1],
-              [1,0,0,0,0,1,1,1,1,0,0,0,1,0,1],
-              [1,0,9,0,0,0,0,0,0,0,0,9,1,1,1],
-              [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
-            ]);
-            antes = new Date();                      
-            requestAnimationFrame(passo);
+              [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+              [1,0,0,0,0,1,0,9,0,0,1,0,0,1,0,0,0,0,0,1],
+              [1,0,0,0,0,1,0,0,0,0,1,0,0,0,9,0,0,0,0,1],
+              [1,0,0,0,0,1,0,0,0,0,0,9,0,0,0,0,0,0,0,1],
+              [1,0,0,0,9,0,0,0,1,0,1,0,0,0,0,0,0,9,0,1],
+              [1,3,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,0,0,1],
+              [1,0,0,0,0,1,1,1,1,2,1,1,1,1,1,1,0,0,0,1],
+              [1,1,0,0,0,0,9,0,0,0,0,0,9,0,0,0,0,9,0,1],
+              [1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+              [1,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,1,0,1],
+              [1,0,9,0,0,0,0,0,0,0,0,9,0,0,0,0,0,1,1,1],
+              [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+            ]);            
           }
       break;
       case 32:

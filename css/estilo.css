@@ -1,9 +1,9 @@
-output{	
-	color: red;	
-}
-h2{
+*{
 	text-align: center;
-	color: white;
-	background-color: black;
-	width: 600px;
+}
+output{	
+	color: #8B2323;	
+}
+h1{	
+	color: #00008B;	
 }
