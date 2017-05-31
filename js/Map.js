@@ -16,7 +16,12 @@ function Map(l, c) {
   }
 }
 
-Map.prototype.desenhar = function(ctx) {
+Map.prototype.desenhar = function(ctx){
+  this.desenharLimites(ctx);
+  this.desenharTiles(ctx);
+}
+
+Map.prototype.desenharLimites = function(ctx) {
   for (var i = 0; i < this.cells.length; i++) {
     var linha = this.cells[i];
     for (var j = 0; j < linha.length; j++) {
@@ -57,6 +62,29 @@ Map.prototype.desenhar = function(ctx) {
         default:
           ctx.fillStyle = 'red';
           ctx.fillRect(j * this.SIZE, i * this.SIZE, this.SIZE, this.SIZE);
+      }
+    }
+  }
+  this.desenharInimigos(ctx);
+  this.desenharTiros(ctx);
+  this.moverTiros(dt);
+};
+
+Map.prototype.desenharTiles = function(ctx) {
+  for (var i = 0; i < this.cells.length; i++) {
+    var linha = this.cells[i];
+    for (var j = 0; j < linha.length; j++) {
+      switch (this.cells[i][j]) {
+        case 0:
+        case 2:
+        case 3:
+          this.imageLib.drawImageTile(ctx, "floor", 3, 1, 40, j*this.SIZE, i*this.SIZE);
+          break;
+        case 1:
+          this.imageLib.drawImageTile(ctx, "floor", 3, 1, 40, j*this.SIZE, i*this.SIZE);
+          this.imageLib.drawImageTile(ctx, "mountain", 7, 10, 40, j*this.SIZE, i*this.SIZE);
+          break;
+        default:
       }
     }
   }
@@ -120,19 +148,19 @@ Map.prototype.tiro = function(x, y, dir){
   tiro.x = x;
   tiro.y = y;
   tiro.SIZE = 7;
-  tiro.color = "red";
+  tiro.color = "yellow";
   switch (dir){
     case 1:
-      tiro.vx = -200;
+      tiro.vx = -150;
     break;
     case 2:
-      tiro.vy = -200;
+      tiro.vy = -150;
     break;
     case 3:
-      tiro.vx = +200;
+      tiro.vx = +150;
     break;
     case 4:
-      tiro.vy = +200;
+      tiro.vy = +150;
     break
   }
   this.tiros.push(tiro);
@@ -147,6 +175,18 @@ Map.prototype.getIndices = function (sprite) {
 
 Map.prototype.criaInimigo = function (l,c) {
   var inimigo = new Sprite();
+  inimigo.imageLib = this.imageLib;
+  inimigo.poses = [
+    {key: "im", row: 11, col: 0, colMax: 7, time: 8},
+    {key: "im", row: 10, col: 0, colMax: 7, time: 8},
+    {key: "im", row:  9, col: 0, colMax: 7, time: 8},
+    {key: "im", row:  8, col: 0, colMax: 7, time: 8},
+    {key: "im", row: 11, col: 0, colMax: 0, time: 8},
+    {key: "im", row: 10, col: 0, colMax: 0, time: 8},
+    {key: "im", row:  9, col: 0, colMax: 0, time: 8},
+    {key: "im", row:  8, col: 0, colMax: 0, time: 8},
+  ];
+
   inimigo.x = (c+0.5)*this.SIZE;
   inimigo.y = (l+0.5)*this.SIZE;
   this.enemies.push(inimigo);
@@ -172,7 +212,7 @@ Map.prototype.moverInimigosOnMap = function(map, dt) {
 
 Map.prototype.desenharTiros = function(ctx) {
   for (var i = 0; i < this.tiros.length; i++) {
-    this.tiros[i].desenhar(ctx);
+    this.tiros[i].desenharLimites(ctx);
   }    
 }
 

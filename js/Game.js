@@ -2,7 +2,7 @@ var tela, ctx;
 var antes = new Date();
 var agora = new Date();
 var dt = 0;
-var mapa, pc;
+var mapa, pc, imglib;
 var vida = 5, lvl = 0, aux = 1, inicio = 1;
 
 function init(){
@@ -10,15 +10,25 @@ function init(){
   tela.width = 800 ;
   tela.height = 480;
   tela.style.border = "5px solid black";
-
   ctx = tela.getContext('2d');
-  mapa = new Map(12, 20);
-  
+
+  imglib = new ImageLoader();
+  imglib.load("pc", "img/pc.png");
+  imglib.load("floor", "img/dirt2.png");
+  imglib.load("im", "img/im.png");
+  imglib.load("mountain", "img/mountains.png");
+
+
+    
   pc = new Sprite();
+  pc.imageLib = imglib;
   pc.x = 100;
   pc.y = 100;
   pc.color = "#159";  
   pc.dir = 1;
+
+  mapa = new Map(12, 20);
+  mapa.imageLib = imglib;
 
   configuraControles();
   var id = requestAnimationFrame(passo);
@@ -39,6 +49,7 @@ function passo(){
   pc.moverOnMap(mapa, dt);
   mapa.moverInimigosOnMap(mapa, dt);  
   pc.desenhar(ctx);
+  //imglib.drawImageTile(ctx, "pc", 3, 0, 64, 0, 0);
   detalhesGame(id);
     
   antes = agora;
@@ -133,6 +144,7 @@ function configuraControles(){
       case 65:
       case 37:
           pc.vx = -100;
+          pc.pose = 2;
           pc.dir = 1;
           e.preventDefault();
         break;
@@ -141,18 +153,21 @@ function configuraControles(){
           if(pc.vy === 0){
             pc.vy -= 200;
           }
+          pc.pose = 3;
           pc.dir = 2;
           e.preventDefault();
         break;
       case 39:
       case 68:
           pc.vx = +100;
+          pc.pose = 0;
           pc.dir = 3;
           e.preventDefault();
         break;
       case 40:
       case 83:
           pc.vy = +100;
+          pc.pose = 1;
           pc.dir = 4
           e.preventDefault();
         break;
@@ -217,15 +232,24 @@ function configuraControles(){
     switch (e.keyCode) {
       case 37:
       case 65:
-      case 68:
-      case 39:
+          pc.pose = 6;
           pc.vx = 0;
           e.preventDefault();
         break;
+      case 68:
+      case 39:
+          pc.pose = 4;
+          pc.vx = 0;
+          e.preventDefault();        
+        break;
       case 38:
       case 87:
+          pc.pose = 7;
+          e.preventDefault();
+        break;
       case 40:
-      case 83:          
+      case 83:
+          pc.pose = 5;         
           e.preventDefault();
         break;
       default:
