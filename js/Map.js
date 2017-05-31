@@ -82,26 +82,26 @@ Map.prototype.desenharTiles = function(ctx) {
         case 0:
         case 3:
         case 6:
-          this.imageLib.drawImageTile(ctx, "elem", 0, 4, 40, j*this.SIZE, i*this.SIZE); //desenha o chao coluna 4
+          this.imageLib.drawImageTile(ctx, "elem", (lvl % 4), 4, 40, j*this.SIZE, i*this.SIZE); //desenha o chao coluna 4
           break;
         case 1:
-          this.imageLib.drawImageTile(ctx, "elem", 0, 4, 40, j*this.SIZE, i*this.SIZE);
-          this.imageLib.drawImageTile(ctx, "elem", 0, 5, 40, j*this.SIZE, i*this.SIZE); // desenha estrutura coluna 5
+          this.imageLib.drawImageTile(ctx, "elem", (lvl % 4), 4, 40, j*this.SIZE, i*this.SIZE);
+          this.imageLib.drawImageTile(ctx, "elem", (lvl % 4), 5, 40, j*this.SIZE, i*this.SIZE); // desenha estrutura coluna 5
           break;
         case 2:
-          this.imageLib.drawImageTile(ctx, "elem", 0, 4, 40, j*this.SIZE, i*this.SIZE); 
-          this.imageLib.drawImageTile(ctx, "elem", 0, 0, 40, j*this.SIZE, i*this.SIZE); // desenha porta fechada coluna 0
+          this.imageLib.drawImageTile(ctx, "elem", (lvl % 4), 4, 40, j*this.SIZE, i*this.SIZE); 
+          this.imageLib.drawImageTile(ctx, "elem", (lvl % 4), 0, 40, j*this.SIZE, i*this.SIZE); // desenha porta fechada coluna 0
           break;
         case 4:
-          this.imageLib.drawImageTile(ctx, "elem", 0, 4, 40, j*this.SIZE, i*this.SIZE);
-          this.imageLib.drawImageTile(ctx, "elem", 0, 1, 40, j*this.SIZE, i*this.SIZE); // desenha porta aberta coluna 1
+          this.imageLib.drawImageTile(ctx, "elem", (lvl % 4), 4, 40, j*this.SIZE, i*this.SIZE);
+          this.imageLib.drawImageTile(ctx, "elem", (lvl % 4), 1, 40, j*this.SIZE, i*this.SIZE); // desenha porta aberta coluna 1
           break;
         case 5:
-          this.imageLib.drawImageTile(ctx, "elem", 0, 4, 40, j*this.SIZE, i*this.SIZE);
+          this.imageLib.drawImageTile(ctx, "elem", (lvl % 4), 4, 40, j*this.SIZE, i*this.SIZE);
           this.imageLib.drawImageTile(ctx, "elem", 0, 2, 40, j*this.SIZE, i*this.SIZE); // desenha chave coluna 2
           break;
         case 7: 
-          this.imageLib.drawImageTile(ctx, "elem", 0, 4, 40, j*this.SIZE, i*this.SIZE);
+          this.imageLib.drawImageTile(ctx, "elem", (lvl % 4), 4, 40, j*this.SIZE, i*this.SIZE);
           this.imageLib.drawImageTile(ctx, "elem", 0, 3, 40, j*this.SIZE, i*this.SIZE); // desenha vida coluna 3
           break;
         default:
