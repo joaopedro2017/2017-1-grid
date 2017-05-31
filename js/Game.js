@@ -13,12 +13,9 @@ function init(){
   ctx = tela.getContext('2d');
 
   imglib = new ImageLoader();
-  imglib.load("pc", "img/pc.png");
-  imglib.load("floor", "img/dirt2.png");
-  imglib.load("im", "img/im.png");
-  imglib.load("mountain", "img/mountains.png");
-
-
+  imglib.load("pc", "img/pc.png");  
+  imglib.load("im", "img/im.png");  
+  imglib.load("elem", "img/struct.png");
     
   pc = new Sprite();
   pc.imageLib = imglib;
@@ -42,6 +39,7 @@ function passo(){
   
   mapa.alterarLevel(mapa);
   mapa.revelarChave(mapa);
+  mapa.gerarVida(mapa);
   mapa.desenhar(ctx);
   mapa.persegue(pc);
   mapa.testarAColisao(pc); 
@@ -213,7 +211,7 @@ function configuraControles(){
               [1,0,0,0,0,1,0,0,0,0,1,0,0,0,9,0,0,0,0,1],
               [1,0,0,0,0,1,0,0,0,0,0,9,0,0,0,0,0,0,0,1],
               [1,0,0,0,9,0,0,0,1,0,1,0,0,0,0,0,0,9,0,1],
-              [1,3,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,0,0,1],
+              [1,3,0,0,0,0,6,1,1,0,1,1,0,0,0,0,0,0,0,1],
               [1,0,0,0,0,1,1,1,1,2,1,1,1,1,1,1,0,0,0,1],
               [1,1,0,0,0,0,9,0,0,0,0,0,9,0,0,0,0,9,0,1],
               [1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],

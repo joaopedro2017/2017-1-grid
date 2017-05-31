@@ -28,7 +28,11 @@ Map.prototype.desenharLimites = function(ctx) {
       switch (this.cells[i][j]) {
         case 0:
         case 2:
-        case 3: 
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        case 7: 
           break;
         case 1:
           if((lvl % 4) == 0){
@@ -45,20 +49,20 @@ Map.prototype.desenharLimites = function(ctx) {
           ctx.lineWidth = 3;
           ctx.strokeRect(j * this.SIZE, i * this.SIZE, this.SIZE, this.SIZE);
           break;
-        case 4:          
+        /*case 4:          
           ctx.fillStyle = 'goldenrod';
           ctx.strokeStyle = 'chocolate';
           ctx.fillRect(j * this.SIZE, i * this.SIZE, this.SIZE, this.SIZE);
           ctx.lineWidth = 3;
           ctx.strokeRect(j * this.SIZE, i * this.SIZE, this.SIZE, this.SIZE);        
-          break;         
-        case 5:
+          break;*/        
+        /*case 5:
           ctx.fillStyle = 'yellow';
           ctx.strokeStyle = 'chocolate';
           ctx.fillRect(j * this.SIZE, i * this.SIZE, this.SIZE, this.SIZE);
           ctx.lineWidth = 3;
           ctx.strokeRect(j * this.SIZE, i * this.SIZE, this.SIZE, this.SIZE);
-          break;
+          break;*/
         default:
           ctx.fillStyle = 'red';
           ctx.fillRect(j * this.SIZE, i * this.SIZE, this.SIZE, this.SIZE);
@@ -76,13 +80,29 @@ Map.prototype.desenharTiles = function(ctx) {
     for (var j = 0; j < linha.length; j++) {
       switch (this.cells[i][j]) {
         case 0:
-        case 2:
         case 3:
-          this.imageLib.drawImageTile(ctx, "floor", 3, 1, 40, j*this.SIZE, i*this.SIZE);
+        case 6:
+          this.imageLib.drawImageTile(ctx, "elem", 0, 4, 40, j*this.SIZE, i*this.SIZE); //desenha o chao coluna 4
           break;
         case 1:
-          this.imageLib.drawImageTile(ctx, "floor", 3, 1, 40, j*this.SIZE, i*this.SIZE);
-          this.imageLib.drawImageTile(ctx, "mountain", 7, 10, 40, j*this.SIZE, i*this.SIZE);
+          this.imageLib.drawImageTile(ctx, "elem", 0, 4, 40, j*this.SIZE, i*this.SIZE);
+          this.imageLib.drawImageTile(ctx, "elem", 0, 5, 40, j*this.SIZE, i*this.SIZE); // desenha estrutura coluna 5
+          break;
+        case 2:
+          this.imageLib.drawImageTile(ctx, "elem", 0, 4, 40, j*this.SIZE, i*this.SIZE); 
+          this.imageLib.drawImageTile(ctx, "elem", 0, 0, 40, j*this.SIZE, i*this.SIZE); // desenha porta fechada coluna 0
+          break;
+        case 4:
+          this.imageLib.drawImageTile(ctx, "elem", 0, 4, 40, j*this.SIZE, i*this.SIZE);
+          this.imageLib.drawImageTile(ctx, "elem", 0, 1, 40, j*this.SIZE, i*this.SIZE); // desenha porta aberta coluna 1
+          break;
+        case 5:
+          this.imageLib.drawImageTile(ctx, "elem", 0, 4, 40, j*this.SIZE, i*this.SIZE);
+          this.imageLib.drawImageTile(ctx, "elem", 0, 2, 40, j*this.SIZE, i*this.SIZE); // desenha chave coluna 2
+          break;
+        case 7: 
+          this.imageLib.drawImageTile(ctx, "elem", 0, 4, 40, j*this.SIZE, i*this.SIZE);
+          this.imageLib.drawImageTile(ctx, "elem", 0, 3, 40, j*this.SIZE, i*this.SIZE); // desenha vida coluna 3
           break;
         default:
       }
@@ -102,7 +122,9 @@ Map.prototype.loadMap = function(map) {
         case 2:
         case 4:
         case 5:
-        case 3:        
+        case 3:
+        case 6:
+        case 7:        
           this.cells[i][j] = map[i][j];
           break;                         
         case 9:
@@ -140,7 +162,35 @@ Map.prototype.revelarChave = function(map){
       }
     }
     this.chave = 1;
+  }  
+}
+
+Map.prototype.gerarVida = function(map){
+  if(vida <= 3){
+    for (var i = 0; i < this.cells.length; i++) {
+      var linha = this.cells[i];
+      for (var j = 0; j < linha.length; j++) {
+        switch (this.cells[i][j]) {
+          case 6:
+            this.cells[i][j] = 7;
+          break;
+        }
+      }
+    }
   }
+  if (map.cells[Math.floor(pc.y/40)][Math.floor(pc.x/40)] == 7){
+    for (var i = 0; i < this.cells.length; i++) {
+      var linha = this.cells[i];
+      for (var j = 0; j < linha.length; j++) {
+        switch (this.cells[i][j]) {
+          case 7:
+            this.cells[i][j] = 0;
+          break
+        }
+      }
+    }
+    vida+=5;    
+  }  
 }
 
 Map.prototype.tiro = function(x, y, dir){
@@ -293,7 +343,7 @@ Map.prototype.alterarLevel = function(map){
         [1,0,0,0,0,1,0,0,0,0,1,0,0,0,9,0,0,0,0,1],
         [1,0,0,0,0,1,0,0,0,0,0,9,0,0,0,0,0,0,0,1],
         [1,0,0,0,9,0,0,0,1,0,1,0,0,0,0,0,0,9,0,1],
-        [1,3,0,0,0,0,0,1,1,0,1,1,0,0,0,0,0,0,0,1],
+        [1,3,0,0,0,0,6,1,1,0,1,1,0,0,0,0,0,0,0,1],
         [1,0,0,0,0,1,1,1,1,2,1,1,1,1,1,1,0,0,0,1],
         [1,1,0,0,0,0,9,0,0,0,0,0,9,0,0,0,0,9,0,1],
         [1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
@@ -307,7 +357,7 @@ Map.prototype.alterarLevel = function(map){
         [1,0,0,0,0,1,1,0,9,0,1,1,1,0,1,1,0,9,2,1],
         [1,0,0,0,0,1,1,0,0,0,1,1,0,0,9,0,0,1,1,1],
         [1,3,0,0,0,1,1,0,0,0,1,1,0,0,0,0,0,0,0,1],
-        [1,0,0,0,0,0,0,0,0,0,9,0,9,0,0,1,1,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,9,6,9,0,0,1,1,0,0,1],
         [1,1,1,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,9,1],
         [1,9,9,0,0,0,0,0,9,0,1,1,1,1,1,0,0,0,1,1],
         [1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
@@ -319,7 +369,7 @@ Map.prototype.alterarLevel = function(map){
     } else if ((lvl % 4) == 2){
       casasMapa=([
         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-        [1,0,0,0,0,1,1,0,0,9,0,0,9,0,0,1,0,0,0,1],
+        [1,0,0,0,0,1,1,0,0,9,0,0,9,0,0,1,0,0,6,1],
         [1,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1],
         [1,0,0,0,0,1,1,0,0,0,0,0,0,0,0,9,0,9,0,1],
         [1,1,1,1,0,1,0,0,0,0,1,0,0,0,1,1,1,0,0,1],
@@ -337,7 +387,7 @@ Map.prototype.alterarLevel = function(map){
         [1,0,0,1,0,0,0,0,0,0,0,0,0,9,9,0,0,9,0,1],
         [1,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,1,9,1],
         [1,0,0,1,0,1,0,0,1,0,0,0,0,0,0,0,0,1,0,1],
-        [1,0,0,1,0,1,0,0,0,0,0,0,0,0,0,1,9,0,0,1],
+        [1,0,0,1,0,1,0,0,0,0,0,0,0,0,0,1,9,6,0,1],
         [1,0,0,1,2,1,0,0,0,0,1,0,9,0,9,1,0,1,3,1],
         [1,0,1,1,1,1,0,0,9,0,0,0,0,0,1,1,1,1,1,1],
         [1,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,1],
