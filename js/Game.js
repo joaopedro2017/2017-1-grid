@@ -12,9 +12,7 @@ function init(){
   tela.style.border = "5px solid black";
   ctx = tela.getContext('2d');
 
-  imglib = new ImageLoader();
-  imglib.load("pc", "img/pc.png");  
-  imglib.load("im", "img/im.png");  
+  imglib = new ImageLoader();    
   imglib.load("elem", "img/struct.png");
     
   pc = new Sprite();
@@ -35,7 +33,10 @@ function passo(){
   id = requestAnimationFrame(passo);  
   agora = new Date();
   dt = (agora - antes)/1000; 
-  ctx.clearRect(0,0, tela.width, tela.height);  
+  ctx.clearRect(0,0, tela.width, tela.height);
+
+  imglib.load("pc", "img/pc"+ (lvl % 4) +".png");  
+  imglib.load("im", "img/im"+ (lvl % 4) +".png");  
   
   mapa.alterarLevel(mapa);
   mapa.revelarChave(mapa);
@@ -46,8 +47,7 @@ function passo(){
   mapa.testarAColisaoTiros(mapa);
   pc.moverOnMap(mapa, dt);
   mapa.moverInimigosOnMap(mapa, dt);  
-  pc.desenhar(ctx);
-  //imglib.drawImageTile(ctx, "pc", 3, 0, 64, 0, 0);
+  pc.desenhar(ctx);  
   detalhesGame(id);
     
   antes = agora;
