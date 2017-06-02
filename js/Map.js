@@ -193,24 +193,51 @@ Map.prototype.gerarVida = function(map){
   }  
 }
 
-Map.prototype.tiro = function(x, y, dir){
+Map.prototype.tiro = function(ctx, x, y, dir){
+  if(pc.tiro > 0) return;
   var tiro = new Sprite();
+  tiro.imageLib = this.imageLib;
+  
   tiro.x = x;
-  tiro.y = y;
-  tiro.SIZE = 7;
+  tiro.y = y - 15;
+  tiro.tamx =  0;
+  tiro.tamy =  20;
+  tiro.SIZE = 20;
   tiro.color = "yellow";
+  pc.tiro = 1;
+  tiro.tempo = 1;
   switch (dir){
     case 1:
+      tiro.tamx =  10;
+      tiro.tamy =  20;
+
+      pc.pose = 10;
       tiro.vx = -150;
+      tiro.poses = [{key: "fc", row: 0, col: 0, colMax: 0, time: 8}];
     break;
     case 2:
+      tiro.tamx =  30;
+      tiro.tamy =  20;
+
+      pc.pose = 11;
       tiro.vy = -150;
+      tiro.poses = [{key: "fc", row: 1, col: 0, colMax: 0, time: 8}];
     break;
     case 3:
+      tiro.tamx =  40;
+      tiro.tamy =  30;
+
+      pc.pose = 8;
       tiro.vx = +150;
+      tiro.poses = [{key: "fc", row: 2, col: 0, colMax: 0, time: 8}];
     break;
     case 4:
+      tiro.tamx =  30;
+      tiro.tamy =  -20;
+
+      pc.pose = 9;
       tiro.vy = +150;
+      tiro.poses = [{key: "fc", row: 3, col: 0, colMax: 0, time: 8}];
     break
   }
   this.tiros.push(tiro);
@@ -262,7 +289,7 @@ Map.prototype.moverInimigosOnMap = function(map, dt) {
 
 Map.prototype.desenharTiros = function(ctx) {
   for (var i = 0; i < this.tiros.length; i++) {
-    this.tiros[i].desenharLimites(ctx);
+    this.tiros[i].desenhar(ctx);
   }    
 }
 

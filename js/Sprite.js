@@ -1,21 +1,36 @@
 function Sprite() {
   this.x = 0;
   this.y = 0;
+  this.tamx = 32;
+  this.tamy = 53;
   this.vx = 0;
   this.vy = 0;
   this.SIZE = 20;
   this.imageLib;
   this.pose = 0;
   this.frame = 0;
+  this.tiro = 0;
   this.poses = [
     {key: "pc", row: 11, col: 0, colMax: 7, time: 8},
     {key: "pc", row: 10, col: 0, colMax: 7, time: 8},
     {key: "pc", row:  9, col: 0, colMax: 7, time: 8},
     {key: "pc", row:  8, col: 0, colMax: 7, time: 8},
+
     {key: "pc", row: 11, col: 0, colMax: 0, time: 8},
     {key: "pc", row: 10, col: 0, colMax: 0, time: 8},
     {key: "pc", row:  9, col: 0, colMax: 0, time: 8},
     {key: "pc", row:  8, col: 0, colMax: 0, time: 8},
+
+    {key: "pc", row: 19, col: 2, colMax: 12, time: 12},
+    {key: "pc", row: 18, col: 2, colMax: 12, time: 12},
+    {key: "pc", row: 17, col: 2, colMax: 12, time: 12},
+    {key: "pc", row: 16, col: 2, colMax: 12, time: 12},
+
+    {key: "pc", row: 19, col: 2, colMax: 0, time: 8},
+    {key: "pc", row: 18, col: 2, colMax: 0, time: 8},
+    {key: "pc", row: 17, col: 2, colMax: 0, time: 8},
+    {key: "pc", row: 16, col: 2, colMax: 0, time: 8},
+
   ];
   this.color = "black";   
 }
@@ -26,6 +41,7 @@ Sprite.prototype.desenhar = function(ctx) {
 }
 
 Sprite.prototype.desenharPose = function(ctx) {
+  
   ctx.fillStyle = "black";
   ctx.globalAlpha = 0.4;
   ctx.beginPath();
@@ -39,7 +55,7 @@ Sprite.prototype.desenharPose = function(ctx) {
     this.poses[this.pose].row,
     this.poses[this.pose].col + Math.floor(this.frame),
     64,
-    this.x - 32, this.y - 53
+    this.x - this.tamx, this.y - this.tamy
   );  
 }
 
@@ -64,10 +80,23 @@ Sprite.prototype.mover = function(dt) {
 };
 
 Sprite.prototype.moverOnMap = function(map, dt) {
+  this.tiro-=dt;
+  
+  if (pc.pose == 10 && pc.tiro<=0.5){
+    pc.pose = 6;
+  }else if (pc.pose == 11 && pc.tiro<=0.5){
+    pc.pose = 7;
+  }else if (pc.pose == 8 && pc.tiro<=0.5){
+    pc.pose = 4;
+  }else if (pc.pose == 9 && pc.tiro<=0.5){
+    pc.pose = 5;
+  }
+
   this.frame += this.poses[this.pose].time * dt;
   if (this.frame > this.poses[this.pose].colMax + 1) {
     this.frame = this.poses[this.pose].col;
   }
+
   var pos = map.getIndices(this);
   this.vy += 220*dt;
   

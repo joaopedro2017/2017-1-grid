@@ -14,6 +14,7 @@ function init(){
 
   imglib = new ImageLoader();    
   imglib.load("elem", "img/struct.png");
+  imglib.load("fc", "img/arrow.png");
   imglib.load("en0", "img/en0.png");
   imglib.load("en1", "img/en1.png");
   imglib.load("en2", "img/en2.png");
@@ -28,7 +29,7 @@ function init(){
   pc.x = 100;
   pc.y = 100;
   pc.color = "#159";  
-  pc.dir = 1;
+  pc.dir = 3;
 
   mapa = new Map(12, 20);
   mapa.imageLib = imglib;
@@ -154,7 +155,7 @@ function configuraControles(){
         break;
       case 38:
       case 87:
-          if(pc.vy === 0){
+          if(pc.vy == 0){
             pc.vy -= 200;
           }
           pc.pose = 3;
@@ -228,7 +229,7 @@ function configuraControles(){
           }
       break;
       case 32:
-          mapa.tiro(pc.x, pc.y, pc.dir);
+          mapa.tiro(ctx, pc.x, pc.y, pc.dir);          
       default:
     }
   });
