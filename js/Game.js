@@ -14,6 +14,14 @@ function init(){
 
   imglib = new ImageLoader();    
   imglib.load("elem", "img/struct.png");
+  imglib.load("en0", "img/en0.png");
+  imglib.load("en1", "img/en1.png");
+  imglib.load("en2", "img/en2.png");
+  imglib.load("en3", "img/en3.png");
+  imglib.load("en4", "img/en4.png");
+  imglib.load("en5", "img/en5.png");
+  imglib.load("en6", "img/en6.png");
+
     
   pc = new Sprite();
   pc.imageLib = imglib;
@@ -36,8 +44,6 @@ function passo(){
   ctx.clearRect(0,0, tela.width, tela.height);
 
   imglib.load("pc", "img/pc"+ (lvl % 4) +".png");  
-  imglib.load("im", "img/im"+ (lvl % 4) +".png");  
-  
   mapa.alterarLevel(mapa);
   mapa.revelarChave(mapa);
   mapa.gerarVida(mapa);
@@ -211,8 +217,8 @@ function configuraControles(){
               [1,0,0,0,0,1,0,0,0,0,1,0,0,0,9,0,0,0,0,1],
               [1,0,0,0,0,1,0,0,0,0,0,9,0,0,0,0,0,0,0,1],
               [1,0,0,0,9,0,0,0,1,0,1,0,0,0,0,0,0,9,0,1],
-              [1,3,0,0,0,0,6,1,1,0,1,1,0,0,0,0,0,0,0,1],
-              [1,0,0,0,0,1,1,1,1,2,1,1,1,1,1,1,0,0,0,1],
+              [1,3,0,0,0,0,6,1,1,2,1,1,0,0,0,0,0,0,0,1],
+              [1,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,1],
               [1,1,0,0,0,0,9,0,0,0,0,0,9,0,0,0,0,9,0,1],
               [1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
               [1,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,1,0,1],
