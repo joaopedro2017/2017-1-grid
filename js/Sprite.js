@@ -59,6 +59,17 @@ Sprite.prototype.desenharPose = function(ctx) {
   );  
 }
 
+Sprite.prototype.desenharTiro = function(ctx){
+
+  this.imageLib.drawImageTile(ctx,
+    this.poses[this.pose].key,
+    this.poses[this.pose].row,
+    this.poses[this.pose].col + Math.floor(this.frame),
+    64,
+    this.x - this.tamx, this.y - this.tamy
+  ); 
+}
+
 Sprite.prototype.desenharLimites = function(ctx) {
   ctx.fillStyle = this.color;
   ctx.fillRect(
@@ -80,15 +91,17 @@ Sprite.prototype.mover = function(dt) {
 };
 
 Sprite.prototype.moverOnMap = function(map, dt) {
-  this.tiro-=dt;
+  if(weap == 0) this.tiro-= 1.5 * dt;
+  if(weap == 4) this.tiro-= 3 * dt;
+  if(weap == 8) this.tiro-= 8 * dt;
   
-  if (pc.pose == 10 && pc.tiro<=0.5){
+  if (pc.pose == 10 && pc.tiro<= 0.5){
     pc.pose = 6;
-  }else if (pc.pose == 11 && pc.tiro<=0.5){
+  }else if (pc.pose == 11 && pc.tiro<= 0.5){
     pc.pose = 7;
-  }else if (pc.pose == 8 && pc.tiro<=0.5){
+  }else if (pc.pose == 8 && pc.tiro<= 0.5){
     pc.pose = 4;
-  }else if (pc.pose == 9 && pc.tiro<=0.5){
+  }else if (pc.pose == 9 && pc.tiro<= 0.5){
     pc.pose = 5;
   }
 

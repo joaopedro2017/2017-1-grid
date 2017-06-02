@@ -3,7 +3,7 @@ var antes = new Date();
 var agora = new Date();
 var dt = 0;
 var mapa, pc, imglib;
-var vida = 5, lvl = 0, aux = 1, inicio = 1;
+var weap = 0; vida = 5, lvl = 0, aux = 1, inicio = 1;
 
 function init(){
   tela = document.getElementsByTagName('canvas')[0];
@@ -13,8 +13,7 @@ function init(){
   ctx = tela.getContext('2d');
 
   imglib = new ImageLoader();    
-  imglib.load("elem", "img/struct.png");
-  imglib.load("fc", "img/arrow.png");
+  imglib.load("elem", "img/struct.png");    
   imglib.load("en0", "img/en0.png");
   imglib.load("en1", "img/en1.png");
   imglib.load("en2", "img/en2.png");
@@ -44,7 +43,8 @@ function passo(){
   dt = (agora - antes)/1000; 
   ctx.clearRect(0,0, tela.width, tela.height);
 
-  imglib.load("pc", "img/pc"+ (lvl % 4) +".png");  
+  imglib.load("pc", "img/pc"+ (lvl % 4) +".png");
+  imglib.load("fc" + weap +"", "img/arma"+ weap +".png");  
   mapa.alterarLevel(mapa);
   mapa.revelarChave(mapa);
   mapa.gerarVida(mapa);
@@ -70,6 +70,11 @@ function detalhesGame(id){
   var eLvl = document.getElementById("nivel");
   eLvl.innerText = lvl;
 
+  var eArma = document.getElementById("arma");
+  if(weap == 0) eArma.innerText = "Arco e Flecha";
+  else if(weap == 4) eArma.innerText = "Fogo";
+  else if(weap == 8) eArma.innerText = "Shuriken";
+
   var eChv = document.getElementById("chv");
   eChv.innerText = mapa.chave;
 
@@ -93,6 +98,8 @@ function detalhesGame(id){
 
   if(lvl == 0 && inicio == 1){
     cancelAnimationFrame(id);
+
+    imglib.drawImageTile(ctx, "pc", 3, 0, 64, 150, 150);
     
     var txt = "Welcome to the Game! ";
     var txt2 = "Comandos: "
@@ -155,10 +162,10 @@ function configuraControles(){
         break;
       case 38:
       case 87:
-          if(pc.vy == 0){
-            pc.vy -= 200;
-          }
-          pc.pose = 3;
+          if(pc.vy == 0) pc.vy -= 200;          
+          if(pc.vx < 0) pc.pose = 2;
+          else if(pc.vx >= 0) pc.pose = 0;
+          
           pc.dir = 2;
           e.preventDefault();
         break;
@@ -172,7 +179,9 @@ function configuraControles(){
       case 40:
       case 83:
           pc.vy = +100;
-          pc.pose = 1;
+          if(pc.vx < 0) pc.pose = 2;
+          else if(pc.vx >= 0) pc.pose = 0;
+          
           pc.dir = 4
           e.preventDefault();
         break;
@@ -200,6 +209,15 @@ function configuraControles(){
           antes = new Date();                      
           requestAnimationFrame(passo);          
           aux = 1;            
+        }
+      break;
+      case 81:
+        if(weap == 0){
+          weap = 4;
+        }else if(weap == 4){
+          weap = 8;          
+        }else if(weap == 8){
+          weap = 0;
         }
       break;
       case 13:
@@ -249,12 +267,14 @@ function configuraControles(){
         break;
       case 38:
       case 87:
-          pc.pose = 7;
+          if(pc.vx < 0) pc.pose = 6;
+          else if(pc.vx >= 0) pc.pose = 4;          
           e.preventDefault();
         break;
       case 40:
-      case 83:
-          pc.pose = 5;         
+      case 83:          
+          if(pc.vx < 0) pc.pose = 6;
+          else if(pc.vx >= 0) pc.pose = 4;        
           e.preventDefault();
         break;
       default:

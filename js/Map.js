@@ -200,10 +200,10 @@ Map.prototype.tiro = function(ctx, x, y, dir){
   
   tiro.x = x;
   tiro.y = y - 15;
-  tiro.tamx =  0;
-  tiro.tamy =  20;
+  //tiro.tamx =  0;
+  //tiro.tamy =  20;
   tiro.SIZE = 20;
-  tiro.color = "yellow";
+  //tiro.color = "yellow";
   pc.tiro = 1;
   tiro.tempo = 1;
   switch (dir){
@@ -213,7 +213,7 @@ Map.prototype.tiro = function(ctx, x, y, dir){
 
       pc.pose = 10;
       tiro.vx = -150;
-      tiro.poses = [{key: "fc", row: 0, col: 0, colMax: 0, time: 8}];
+      tiro.poses = [{key: "fc"+ weap, row: 0, col: 0, colMax: 0, time: 8}];
     break;
     case 2:
       tiro.tamx =  30;
@@ -221,7 +221,7 @@ Map.prototype.tiro = function(ctx, x, y, dir){
 
       pc.pose = 11;
       tiro.vy = -150;
-      tiro.poses = [{key: "fc", row: 1, col: 0, colMax: 0, time: 8}];
+      tiro.poses = [{key: "fc"+ weap, row: 1, col: 0, colMax: 0, time: 8}];
     break;
     case 3:
       tiro.tamx =  40;
@@ -229,7 +229,7 @@ Map.prototype.tiro = function(ctx, x, y, dir){
 
       pc.pose = 8;
       tiro.vx = +150;
-      tiro.poses = [{key: "fc", row: 2, col: 0, colMax: 0, time: 8}];
+      tiro.poses = [{key: "fc"+ weap, row: 2, col: 0, colMax: 0, time: 8}];
     break;
     case 4:
       tiro.tamx =  30;
@@ -237,7 +237,7 @@ Map.prototype.tiro = function(ctx, x, y, dir){
 
       pc.pose = 9;
       tiro.vy = +150;
-      tiro.poses = [{key: "fc", row: 3, col: 0, colMax: 0, time: 8}];
+      tiro.poses = [{key: "fc"+ weap, row: 3, col: 0, colMax: 0, time: 8}];
     break
   }
   this.tiros.push(tiro);
