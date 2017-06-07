@@ -5,6 +5,10 @@ var dt = 0;
 var mapa, pc, imglib;
 var weap = 0; vida = 5, lvl = 0, aux = 1, inicio = 1;
 
+/*var telaInicial = new Image();
+telaInicial.src = "img/tela.png";
+ctx.drawImage(telaInicial, 0, 0, 800, 480);*/     //desenhar imagemdepois retirar
+
 function init(){
   tela = document.getElementsByTagName('canvas')[0];
   tela.width = 800 ;
@@ -43,7 +47,7 @@ function passo(){
   dt = (agora - antes)/1000; 
   ctx.clearRect(0,0, tela.width, tela.height);
 
-  imglib.load("pc", "img/pc"+ (lvl % 4) +".png");
+  imglib.load("pc", "img/pc"+ (lvl % 6) +".png");
   imglib.load("fc" + weap +"", "img/arma"+ weap +".png");  
   mapa.alterarLevel(mapa);
   mapa.revelarChave(mapa);
@@ -97,9 +101,7 @@ function detalhesGame(id){
   } 
 
   if(lvl == 0 && inicio == 1){
-    cancelAnimationFrame(id);
-
-    imglib.drawImageTile(ctx, "pc", 3, 0, 64, 150, 150);
+    cancelAnimationFrame(id);   
     
     var txt = "Welcome to the Game! ";
     var txt2 = "Comandos: "

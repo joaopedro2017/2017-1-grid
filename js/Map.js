@@ -82,26 +82,26 @@ Map.prototype.desenharTiles = function(ctx) {
         case 0:
         case 3:
         case 6:
-          this.imageLib.drawImageTile(ctx, "elem", (lvl % 4), 4, 40, j*this.SIZE, i*this.SIZE); //desenha o chao coluna 4
+          this.imageLib.drawImageTile(ctx, "elem", (lvl % 5), 4, 40, j*this.SIZE, i*this.SIZE); //desenha o chao coluna 4
           break;
         case 1:
-          this.imageLib.drawImageTile(ctx, "elem", (lvl % 4), 4, 40, j*this.SIZE, i*this.SIZE);
-          this.imageLib.drawImageTile(ctx, "elem", (lvl % 4), 5, 40, j*this.SIZE, i*this.SIZE); // desenha estrutura coluna 5
+          this.imageLib.drawImageTile(ctx, "elem", (lvl % 5), 4, 40, j*this.SIZE, i*this.SIZE);
+          this.imageLib.drawImageTile(ctx, "elem", (lvl % 5), 5, 40, j*this.SIZE, i*this.SIZE); // desenha estrutura coluna 5
           break;
         case 2:
-          this.imageLib.drawImageTile(ctx, "elem", (lvl % 4), 4, 40, j*this.SIZE, i*this.SIZE); 
-          this.imageLib.drawImageTile(ctx, "elem", (lvl % 4), 0, 40, j*this.SIZE, i*this.SIZE); // desenha porta fechada coluna 0
+          this.imageLib.drawImageTile(ctx, "elem", (lvl % 5), 4, 40, j*this.SIZE, i*this.SIZE); 
+          this.imageLib.drawImageTile(ctx, "elem", (lvl % 5), 0, 40, j*this.SIZE, i*this.SIZE); // desenha porta fechada coluna 0
           break;
         case 4:
-          this.imageLib.drawImageTile(ctx, "elem", (lvl % 4), 4, 40, j*this.SIZE, i*this.SIZE);
-          this.imageLib.drawImageTile(ctx, "elem", (lvl % 4), 1, 40, j*this.SIZE, i*this.SIZE); // desenha porta aberta coluna 1
+          this.imageLib.drawImageTile(ctx, "elem", (lvl % 5), 4, 40, j*this.SIZE, i*this.SIZE);
+          this.imageLib.drawImageTile(ctx, "elem", (lvl % 5), 1, 40, j*this.SIZE, i*this.SIZE); // desenha porta aberta coluna 1
           break;
         case 5:
-          this.imageLib.drawImageTile(ctx, "elem", (lvl % 4), 4, 40, j*this.SIZE, i*this.SIZE);
+          this.imageLib.drawImageTile(ctx, "elem", (lvl % 5), 4, 40, j*this.SIZE, i*this.SIZE);
           this.imageLib.drawImageTile(ctx, "elem", 0, 2, 40, j*this.SIZE, i*this.SIZE); // desenha chave coluna 2
           break;
         case 7: 
-          this.imageLib.drawImageTile(ctx, "elem", (lvl % 4), 4, 40, j*this.SIZE, i*this.SIZE);
+          this.imageLib.drawImageTile(ctx, "elem", (lvl % 5), 4, 40, j*this.SIZE, i*this.SIZE);
           this.imageLib.drawImageTile(ctx, "elem", 0, 3, 40, j*this.SIZE, i*this.SIZE); // desenha vida coluna 3
           break;
         default:
@@ -205,39 +205,43 @@ Map.prototype.tiro = function(ctx, x, y, dir){
   tiro.SIZE = 20;
   //tiro.color = "yellow";
   pc.tiro = 1;
-  tiro.tempo = 1;
+  tiro.tempo = dt;
   switch (dir){
     case 1:
       tiro.tamx =  10;
       tiro.tamy =  20;
 
-      pc.pose = 10;
+      if(weap == 4 || weap == 8) pc.pose = 10;
+      else if(weap == 0) pc.pose = 17;
       tiro.vx = -150;
-      tiro.poses = [{key: "fc"+ weap, row: 0, col: 0, colMax: 0, time: 8}];
+      tiro.poses = [{key: "fc"+ weap, row: 0, col: 0, colMax: 3, time: 8}];
     break;
     case 2:
       tiro.tamx =  30;
       tiro.tamy =  20;
 
-      pc.pose = 11;
+      if(weap == 4 || weap == 8) pc.pose = 11;
+      else if(weap == 0) pc.pose = 20;
       tiro.vy = -150;
-      tiro.poses = [{key: "fc"+ weap, row: 1, col: 0, colMax: 0, time: 8}];
+      tiro.poses = [{key: "fc"+ weap, row: 1, col: 0, colMax: 3, time: 8}];
     break;
     case 3:
       tiro.tamx =  40;
       tiro.tamy =  30;
 
-      pc.pose = 8;
+      if(weap == 4 || weap == 8) pc.pose = 8;
+      else if(weap == 0) pc.pose = 19;
       tiro.vx = +150;
-      tiro.poses = [{key: "fc"+ weap, row: 2, col: 0, colMax: 0, time: 8}];
+      tiro.poses = [{key: "fc"+ weap, row: 2, col: 0, colMax: 3, time: 8}];
     break;
     case 4:
       tiro.tamx =  30;
       tiro.tamy =  -20;
 
-      pc.pose = 9;
+      if(weap == 4 || weap == 8) pc.pose = 9;
+      else if(weap == 0) pc.pose = 18;
       tiro.vy = +150;
-      tiro.poses = [{key: "fc"+ weap, row: 3, col: 0, colMax: 0, time: 8}];
+      tiro.poses = [{key: "fc"+ weap, row: 3, col: 0, colMax: 3, time: 8}];
     break
   }
   this.tiros.push(tiro);
@@ -289,7 +293,7 @@ Map.prototype.moverInimigosOnMap = function(map, dt) {
 
 Map.prototype.desenharTiros = function(ctx) {
   for (var i = 0; i < this.tiros.length; i++) {
-    this.tiros[i].desenhar(ctx);
+    this.tiros[i].desenharTiro(ctx);
   }    
 }
 
@@ -363,7 +367,7 @@ Map.prototype.alterarLevel = function(map){
     this.cont = 0;
     this.enemies.length = 0;
 
-    if ((lvl % 4) == 0){
+    if ((lvl % 5) == 0){
       casasMapa=([
         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
         [1,0,0,0,0,1,0,9,0,0,1,0,0,1,0,0,0,0,0,1],
@@ -378,7 +382,7 @@ Map.prototype.alterarLevel = function(map){
         [1,0,9,0,0,0,0,0,0,0,0,9,0,0,0,0,0,1,1,1],
         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
       ]);
-    } else if ((lvl % 4) == 1){
+    } else if ((lvl % 5) == 1){
       casasMapa=([
         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
         [1,0,0,0,0,1,1,0,9,0,1,1,1,0,1,1,0,9,2,1],
@@ -393,7 +397,7 @@ Map.prototype.alterarLevel = function(map){
         [1,0,0,0,1,1,1,0,0,1,1,0,0,0,0,0,0,9,0,1],
         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
       ]);      
-    } else if ((lvl % 4) == 2){
+    } else if ((lvl % 5) == 2){
       casasMapa=([
         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
         [1,0,0,0,0,1,1,0,0,9,0,0,9,0,0,1,0,0,2,1],
@@ -408,7 +412,7 @@ Map.prototype.alterarLevel = function(map){
         [1,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,9,1],
         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
       ]);      
-    } else if ((lvl % 4) == 3){
+    } else if ((lvl % 5) == 3){
       casasMapa=([
         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
         [1,0,0,1,0,0,0,0,0,0,0,0,0,9,9,0,0,9,0,1],
@@ -421,6 +425,21 @@ Map.prototype.alterarLevel = function(map){
         [1,0,3,1,0,0,0,0,0,0,0,9,0,1,0,0,0,9,9,1],
         [1,0,1,1,1,0,0,1,9,0,0,1,0,1,0,9,0,1,0,1],
         [1,9,1,1,1,9,0,0,0,0,0,0,9,0,0,0,1,1,1,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+      ]);      
+    } else if ((lvl % 5) == 4){
+      casasMapa=([
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,0,9,9,0,0,9,0,1],
+        [1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,1,9,1],
+        [1,2,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,1],
+        [1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,9,0,0,1],
+        [1,9,0,0,1,0,0,0,0,0,1,0,9,0,9,1,0,1,0,1],
+        [1,1,1,1,0,1,0,0,9,0,0,0,0,9,1,0,1,1,1,1],
+        [1,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,9,0,1,0,0,0,9,9,1],
+        [1,0,1,0,1,0,0,1,9,0,0,1,0,1,0,9,0,0,0,1],
+        [1,9,1,3,1,9,0,0,0,0,0,0,9,0,0,0,1,0,6,1],
         [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
       ]);      
     }

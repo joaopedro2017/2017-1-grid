@@ -31,6 +31,16 @@ function Sprite() {
     {key: "pc", row: 17, col: 2, colMax: 0, time: 8},
     {key: "pc", row: 16, col: 2, colMax: 0, time: 8},
 
+    {key: "pc", row: 20, col: 2, colMax: 12, time: 12},
+    {key: "pc", row: 21, col: 2, colMax: 12, time: 12},
+    {key: "pc", row: 22, col: 2, colMax: 12, time: 12},
+    {key: "pc", row: 23, col: 2, colMax: 12, time: 12},
+
+    {key: "pc", row: 20, col: 2, colMax: 0, time: 8},
+    {key: "pc", row: 21, col: 2, colMax: 0, time: 8},
+    {key: "pc", row: 22, col: 2, colMax: 0, time: 8},
+    {key: "pc", row: 23, col: 2, colMax: 0, time: 8},
+
   ];
   this.color = "black";   
 }
@@ -91,18 +101,18 @@ Sprite.prototype.mover = function(dt) {
 };
 
 Sprite.prototype.moverOnMap = function(map, dt) {
-  if(weap == 0) this.tiro-= 1.5 * dt;
+  if(weap == 0) this.tiro-= 1 * dt;
   if(weap == 4) this.tiro-= 3 * dt;
   if(weap == 8) this.tiro-= 8 * dt;
   
-  if (pc.pose == 10 && pc.tiro<= 0.5){
+  if ((pc.pose == 10 || pc.pose == 17) && pc.tiro<= 0.5){
     pc.pose = 6;
-  }else if (pc.pose == 11 && pc.tiro<= 0.5){
-    pc.pose = 7;
-  }else if (pc.pose == 8 && pc.tiro<= 0.5){
+  }else if ((pc.pose == 11 || pc.pose == 20) && pc.tiro<= 0.5){
     pc.pose = 4;
-  }else if (pc.pose == 9 && pc.tiro<= 0.5){
-    pc.pose = 5;
+  }else if ((pc.pose == 8 || pc.pose == 19) && pc.tiro<= 0.5){
+    pc.pose = 4;
+  }else if ((pc.pose == 9 || pc.pose == 18) && pc.tiro<= 0.5){
+    pc.pose = 6;
   }
 
   this.frame += this.poses[this.pose].time * dt;
