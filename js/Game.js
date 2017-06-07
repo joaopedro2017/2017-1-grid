@@ -3,7 +3,7 @@ var antes = new Date();
 var agora = new Date();
 var dt = 0;
 var mapa, pc, imglib;
-var weap = 0; vida = 5, lvl = 0, aux = 1, inicio = 1, pers = 0;
+var weap = 0; vida = 5, lvl = 0, aux = 1, inicio = 1, pers = 0, esc = 1;
 
 function init(){
   tela = document.getElementsByTagName('canvas')[0];
@@ -37,16 +37,25 @@ function init(){
   var id = requestAnimationFrame(passo);
 }
 
-function passo(){  
+function passo(){
+  ctx.save();
+  ctx.fillStyle = "black";
+  ctx.fillRect(0,0, tela.width, tela.height);
+  
   id = requestAnimationFrame(passo);  
   agora = new Date();
-  dt = (agora - antes)/1000; 
-  ctx.clearRect(0,0, tela.width, tela.height);
+  dt = (agora - antes)/1000;   
 
   imglib.load("fc" + weap +"", "img/arma"+ weap +".png");
   imglib.load("pc", "img/pc"+ pers +".png"); 
 
   if(inicio == 2){
+
+    if(esc == 1.5 || esc == 2){
+      ctx.scale(esc, esc);
+      ctx.translate((Math.min(tela.width/4-pc.x, 0)),Math.min(tela.height/4-pc.y,0));
+    }    
+
     mapa.alterarLevel(mapa);
     mapa.revelarChave(mapa);
     mapa.gerarVida(mapa);
@@ -62,6 +71,7 @@ function passo(){
   detalhesGame(id);
     
   antes = agora;
+  ctx.restore();
 }
 
 function detalhesGame(id){
@@ -100,7 +110,7 @@ function detalhesGame(id){
   }
 
   if(lvl >= 13){
-    mapa.enemies.length = 0;   
+    mapa.enemies.length = 0;    
     inicio = 4;
 
     var telaLvlMax = new Image();
@@ -134,6 +144,11 @@ function configuraControles(){
           pc.pose = 0;
           pc.dir = 3;
           e.preventDefault();
+        break;
+      case 69:
+          if(esc == 1) esc = 1.5;
+          else if(esc == 1.5) esc = 2;
+          else if(esc == 2) esc = 1;
         break;
       case 40:
       case 83:
