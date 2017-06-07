@@ -3,11 +3,7 @@ var antes = new Date();
 var agora = new Date();
 var dt = 0;
 var mapa, pc, imglib;
-var weap = 0; vida = 5, lvl = 0, aux = 1, inicio = 1;
-
-/*var telaInicial = new Image();
-telaInicial.src = "img/tela.png";
-ctx.drawImage(telaInicial, 0, 0, 800, 480);*/     //desenhar imagemdepois retirar
+var weap = 0; vida = 5, lvl = 0, aux = 1, inicio = 1, pers = 0;
 
 function init(){
   tela = document.getElementsByTagName('canvas')[0];
@@ -17,7 +13,8 @@ function init(){
   ctx = tela.getContext('2d');
 
   imglib = new ImageLoader();    
-  imglib.load("elem", "img/struct.png");    
+  imglib.load("elem", "img/struct.png");
+  imglib.load("personagem", "img/pers.png");
   imglib.load("en0", "img/en0.png");
   imglib.load("en1", "img/en1.png");
   imglib.load("en2", "img/en2.png");
@@ -25,7 +22,6 @@ function init(){
   imglib.load("en4", "img/en4.png");
   imglib.load("en5", "img/en5.png");
   imglib.load("en6", "img/en6.png");
-
     
   pc = new Sprite();
   pc.imageLib = imglib;
@@ -47,18 +43,22 @@ function passo(){
   dt = (agora - antes)/1000; 
   ctx.clearRect(0,0, tela.width, tela.height);
 
-  imglib.load("pc", "img/pc"+ (lvl % 6) +".png");
-  imglib.load("fc" + weap +"", "img/arma"+ weap +".png");  
-  mapa.alterarLevel(mapa);
-  mapa.revelarChave(mapa);
-  mapa.gerarVida(mapa);
-  mapa.desenhar(ctx);
-  mapa.persegue(pc);
-  mapa.testarAColisao(pc); 
-  mapa.testarAColisaoTiros(mapa);
-  pc.moverOnMap(mapa, dt);
-  mapa.moverInimigosOnMap(mapa, dt);  
-  pc.desenhar(ctx);  
+  imglib.load("fc" + weap +"", "img/arma"+ weap +".png");
+  imglib.load("pc", "img/pc"+ pers +".png"); 
+
+  if(inicio == 2){
+    mapa.alterarLevel(mapa);
+    mapa.revelarChave(mapa);
+    mapa.gerarVida(mapa);
+    mapa.desenhar(ctx);
+    mapa.persegue(pc);
+    mapa.testarAColisao(pc); 
+    mapa.testarAColisaoTiros(mapa);
+    pc.moverOnMap(mapa, dt);
+    mapa.moverInimigosOnMap(mapa, dt);  
+    pc.desenhar(ctx);
+  }
+  
   detalhesGame(id);
     
   antes = agora;
@@ -82,73 +82,30 @@ function detalhesGame(id){
   var eChv = document.getElementById("chv");
   eChv.innerText = mapa.chave;
 
-  if(vida == 0){ 
-    cancelAnimationFrame(id);
-    mapa.cont = 0; 
+  if(vida == 0){    
+    mapa.cont = 0;
+    inicio = 3;
 
-    var txt = "Tente de novo!";
-    var txt2 = "Enter &";
-    var txt3 = "Reinicie!";
-    
-    ctx.fillStyle = "black"; 
-    ctx.globalAlpha = 0.8;  
-    ctx.fillRect(0, 0, tela.width, tela.height);                    
-    ctx.font = "100px Arial";
-    ctx.fillStyle = "white";
-    ctx.fillText(txt, 80, 100);
-    ctx.fillText(txt2, 170, 275);
-    ctx.fillText(txt3, 260, 450);            
+    var telaPerdeu = new Image();
+    telaPerdeu.src = "img/telaPerder.png";
+    ctx.drawImage(telaPerdeu, 0, 0, 800, 480);    
   } 
 
   if(lvl == 0 && inicio == 1){
-    cancelAnimationFrame(id);   
-    
-    var txt = "Welcome to the Game! ";
-    var txt2 = "Comandos: "
-    var txt3 = "Movimentos     Pausa    Atirar    Iniciar";
+    var telaInic = new Image();
+    telaInic.src = "img/telaInicial.png";
+    ctx.drawImage(telaInic, 0, 0, 800, 480); 
 
-    var txt4 = "◙ Ao atingir cinco inimigos, revela a chave";
-    var txt5 = "◙ Use a chave para desbloquear a porta";
-    var txt6 = "◙ Nível máximo: 12";
-    var txt7 = "[w]               [↑]";
-    var txt8 = "[A] [S] [D]   [←] [↓] [→]      [P]       [Space]    [Enter]";
-    
-    ctx.fillStyle = "#87CEEB";
-    ctx.fillRect(0, 0, tela.width, tela.height);                    
-    ctx.font = "60px Arial";
-    ctx.fillStyle = "darkRed";
-    ctx.fillText(txt, 95, 100);
-
-    ctx.font = "25px Arial";
-    ctx.fillStyle = "#fff";
-    ctx.fillText(txt7, 165,260);
-    ctx.fillText(txt8, 127, 290);    
-
-    ctx.font = "30px Arial";
-    ctx.fillStyle = "#000";
-    ctx.fillText(txt2, 100, 160);
-    ctx.fillText(txt3, 180, 205);
-    ctx.fillText(txt4, 100, 375);
-    ctx.fillText(txt5, 100, 405);
-    ctx.fillText(txt6, 100, 435);       
+    imglib.drawImageTile(ctx, "personagem", 0, pers, 128, 336, 200);        
   }
 
-  if(lvl == 13 && inicio == 2){
-    cancelAnimationFrame(id);
-    lvl = 0;
-    inicio = 1;
-    
-    var txt = "Nível Máximo!";
-    var txt2 = "Tecle Enter";
-    var txt3 = "E Reinicie!";
-    
-    ctx.fillStyle = "darkRed";
-    ctx.fillRect(0, 0, tela.width, tela.height);                    
-    ctx.font = "100px Arial";
-    ctx.fillStyle = "#FFD700";
-    ctx.fillText(txt, 60, 100);
-    ctx.fillText(txt2, 190, 275);
-    ctx.fillText(txt3, 280, 450);    
+  if(lvl >= 13){
+    mapa.enemies.length = 0;   
+    inicio = 4;
+
+    var telaLvlMax = new Image();
+    telaLvlMax.src = "img/telaLevelMax.png";
+    ctx.drawImage(telaLvlMax, 0, 0, 800, 480);
   }
 }
 
@@ -194,7 +151,7 @@ function configuraControles(){
           var txt3 = "Café!";
           
           ctx.fillStyle = "#9AC0CD";
-          ctx.globalAlpha = 0.8;
+          ctx.globalAlpha = 0.75;
           ctx.fillRect(0, 0, tela.width, tela.height);                    
           ctx.font = "100px Arial";
           ctx.fillStyle = "darkRed";
@@ -222,15 +179,19 @@ function configuraControles(){
           weap = 0;
         }
       break;
+      case 82:
+        if(inicio == 1){
+          if(pers == 0) pers++;
+          else if(pers == 1) pers++;
+          else if(pers == 2) pers++;
+          else if(pers == 3) pers++;
+          else if(pers == 4) pers++;
+          else if(pers == 5) pers = 0;
+        }
+      break;
       case 13:
-          if(vida == 0 || (lvl == 0 && inicio == 1)){
-            vida = 5;
-            lvl = 0;
+          if(lvl == 0 && inicio == 1){            
             inicio = 2;
-            aux = 1;
-            antes = new Date();                      
-            requestAnimationFrame(passo);
-            ctx.globalAlpha = 1;
             mapa.enemies.length = 0;
             mapa.loadMap([
               [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
@@ -246,6 +207,11 @@ function configuraControles(){
               [1,0,9,0,0,0,0,0,0,0,0,9,0,0,0,0,0,1,1,1],
               [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
             ]);            
+          }
+          else if((vida == 0 && inicio == 3) || inicio == 4){
+            lvl = 0;
+            inicio = 1;
+            vida = 5;
           }
       break;
       case 32:

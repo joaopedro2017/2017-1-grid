@@ -199,11 +199,9 @@ Map.prototype.tiro = function(ctx, x, y, dir){
   tiro.imageLib = this.imageLib;
   
   tiro.x = x;
-  tiro.y = y - 15;
-  //tiro.tamx =  0;
-  //tiro.tamy =  20;
+  tiro.y = y - 15;  
   tiro.SIZE = 20;
-  //tiro.color = "yellow";
+  tiro.color = "yellow";
   pc.tiro = 1;
   tiro.tempo = dt;
   switch (dir){
