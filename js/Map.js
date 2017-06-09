@@ -209,7 +209,10 @@ Map.prototype.tiro = function(ctx, x, y, dir){
       tiro.tamx =  10;
       tiro.tamy =  20;
 
-      if(weap == 4 || weap == 8) pc.pose = 10;
+      if(weap == 4 || weap == 8){
+        if(weap == 4) soundLib.play("fogo");
+        pc.pose = 10;
+      }
       else if(weap == 0){
         pc.pose = 17;
         soundLib.play("flecha");
@@ -221,7 +224,10 @@ Map.prototype.tiro = function(ctx, x, y, dir){
       tiro.tamx =  30;
       tiro.tamy =  20;
 
-      if(weap == 4 || weap == 8) pc.pose = 11;
+      if(weap == 4 || weap == 8){
+        if(weap == 4) soundLib.play("fogo");
+        pc.pose = 11;
+      }
       else if(weap == 0){
         pc.pose = 20;
         soundLib.play("flecha");
@@ -233,7 +239,10 @@ Map.prototype.tiro = function(ctx, x, y, dir){
       tiro.tamx =  40;
       tiro.tamy =  30;
 
-      if(weap == 4 || weap == 8) pc.pose = 8;
+      if(weap == 4 || weap == 8){
+        if(weap == 4) soundLib.play("fogo");
+        pc.pose = 8;
+      }
       else if(weap == 0){
         pc.pose = 19;
         soundLib.play("flecha");
@@ -245,7 +254,10 @@ Map.prototype.tiro = function(ctx, x, y, dir){
       tiro.tamx =  30;
       tiro.tamy =  -20;
 
-      if(weap == 4 || weap == 8) pc.pose = 9;
+      if(weap == 4 || weap == 8){
+        if(weap == 4) soundLib.play("fogo");
+        pc.pose = 9;
+      }
       else if(weap == 0){
         pc.pose = 18;
         soundLib.play("flecha");
