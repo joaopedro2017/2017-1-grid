@@ -25,6 +25,7 @@ function init(){
 
   soundLib = new SoundLoader();
   soundLib.load("punch", "sound/punch.mp3");
+  soundLib.load("pulo", "sound/pulo.mp3");
     
   pc = new Sprite();
   pc.imageLib = imglib;
@@ -147,7 +148,10 @@ function configuraControles(){
         break;
       case 38:
       case 87:
-          if(pc.vy == 0) pc.vy -= 200;          
+          if(pc.vy == 0){
+            pc.vy -= 200;
+            soundLib.play("pulo");
+          }
           if(pc.vx < 0) pc.pose = 2;
           else if(pc.vx >= 0) pc.pose = 0;
           
