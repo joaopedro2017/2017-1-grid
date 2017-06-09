@@ -392,7 +392,8 @@ Map.prototype.alterarLevel = function(map){
     lvl = lvl + 1;
     this.chave = 0;
     this.cont = 0;
-    this.enemies.length = 0;    
+    this.enemies.length = 0;
+    soundLib.play("porta");
     aux = 4;
 
     if ((lvl % 5) == 0){

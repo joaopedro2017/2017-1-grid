@@ -29,7 +29,8 @@ function init(){
   soundLib.load("flecha", "sound/arrow.mp3");
   soundLib.load("fogo", "sound/fogo.mp3");
   soundLib.load("ninja", "sound/ninja.mp3");
-      
+  soundLib.load("porta", "sound/porta.mp3");
+    
   pc = new Sprite();
   pc.imageLib = imglib;
   pc.x = 100;
