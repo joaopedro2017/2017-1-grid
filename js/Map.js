@@ -211,6 +211,7 @@ Map.prototype.tiro = function(ctx, x, y, dir){
 
       if(weap == 4 || weap == 8){
         if(weap == 4) soundLib.play("fogo");
+        else soundLib.play("ninja");
         pc.pose = 10;
       }
       else if(weap == 0){
@@ -226,6 +227,7 @@ Map.prototype.tiro = function(ctx, x, y, dir){
 
       if(weap == 4 || weap == 8){
         if(weap == 4) soundLib.play("fogo");
+        else soundLib.play("ninja");
         pc.pose = 11;
       }
       else if(weap == 0){
@@ -241,6 +243,7 @@ Map.prototype.tiro = function(ctx, x, y, dir){
 
       if(weap == 4 || weap == 8){
         if(weap == 4) soundLib.play("fogo");
+        else soundLib.play("ninja");
         pc.pose = 8;
       }
       else if(weap == 0){
@@ -256,6 +259,7 @@ Map.prototype.tiro = function(ctx, x, y, dir){
 
       if(weap == 4 || weap == 8){
         if(weap == 4) soundLib.play("fogo");
+        else soundLib.play("ninja");
         pc.pose = 9;
       }
       else if(weap == 0){
@@ -384,11 +388,11 @@ Map.prototype.alterarLevel = function(map){
       }
     }
   }
-  if (map.cells[Math.floor(pc.y/40)][Math.floor(pc.x/40)] == 4){    
+  if(map.cells[Math.floor(pc.y/40)][Math.floor(pc.x/40)] == 4){    
     lvl = lvl + 1;
     this.chave = 0;
     this.cont = 0;
-    this.enemies.length = 0;
+    this.enemies.length = 0;    
     aux = 4;
 
     if ((lvl % 5) == 0){
