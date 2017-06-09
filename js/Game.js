@@ -31,6 +31,7 @@ function init(){
   soundLib.load("ninja", "sound/ninja.mp3");
   soundLib.load("porta", "sound/porta.mp3");
   soundLib.load("perdeu", "sound/vcPerdeu.mp3");
+  soundLib.load("contato", "sound/contato.mp3");
     
   pc = new Sprite();
   pc.imageLib = imglib;
@@ -101,11 +102,13 @@ function detalhesGame(id){
   var eChv = document.getElementById("chv");
   eChv.innerText = mapa.chave;
 
-  if(vida == 0){    
+  if(vida == 0 && inicio != 3){    
     mapa.cont = 0;
     inicio = 3;
     soundLib.play("perdeu");
+  }
 
+  if(vida == 0){
     var telaPerdeu = new Image();
     telaPerdeu.src = "img/telaPerder.png";
     ctx.drawImage(telaPerdeu, 0, 0, 800, 480);    

@@ -344,6 +344,7 @@ Map.prototype.persegue = function(alvo) {
 Map.prototype.testarAColisao = function(alvo){
   for (var i = 0; i < this.enemies.length; i++) {
     if(alvo.colidirCom(this.enemies[i])){
+      soundLib.play("punch");
       this.enemies[i].destroyed = true;
       this.enemies.splice(i,1);
       alvo.x = 100;
@@ -356,8 +357,8 @@ Map.prototype.testarAColisao = function(alvo){
 Map.prototype.testarAColisaoTiros = function(map){
   for (var i = this.enemies.length-1; i >= 0; i--) {
     for (var j = this.tiros.length-1; j>=0; j--) {
-      if(this.tiros[j].colidirCom(this.enemies[i])){
-        soundLib.play("punch");
+      if(this.tiros[j].colidirCom(this.enemies[i])){        
+        soundLib.play("contato");
         this.cont++;
         this.enemies[i].destroyed = true;        
         this.enemies.splice(i,1);
