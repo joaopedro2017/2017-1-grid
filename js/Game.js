@@ -30,6 +30,7 @@ function init(){
   soundLib.load("fogo", "sound/fogo.mp3");
   soundLib.load("ninja", "sound/ninja.mp3");
   soundLib.load("porta", "sound/porta.mp3");
+  soundLib.load("perdeu", "sound/vcPerdeu.mp3");
     
   pc = new Sprite();
   pc.imageLib = imglib;
@@ -103,6 +104,7 @@ function detalhesGame(id){
   if(vida == 0){    
     mapa.cont = 0;
     inicio = 3;
+    soundLib.play("perdeu");
 
     var telaPerdeu = new Image();
     telaPerdeu.src = "img/telaPerder.png";
