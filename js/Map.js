@@ -210,7 +210,10 @@ Map.prototype.tiro = function(ctx, x, y, dir){
       tiro.tamy =  20;
 
       if(weap == 4 || weap == 8) pc.pose = 10;
-      else if(weap == 0) pc.pose = 17;
+      else if(weap == 0){
+        pc.pose = 17;
+        soundLib.play("flecha");
+      }
       tiro.vx = -150;
       tiro.poses = [{key: "fc"+ weap, row: 0, col: 0, colMax: 3, time: 8}];
     break;
@@ -219,7 +222,10 @@ Map.prototype.tiro = function(ctx, x, y, dir){
       tiro.tamy =  20;
 
       if(weap == 4 || weap == 8) pc.pose = 11;
-      else if(weap == 0) pc.pose = 20;
+      else if(weap == 0){
+        pc.pose = 20;
+        soundLib.play("flecha");
+      }
       tiro.vy = -150;
       tiro.poses = [{key: "fc"+ weap, row: 1, col: 0, colMax: 3, time: 8}];
     break;
@@ -228,7 +234,10 @@ Map.prototype.tiro = function(ctx, x, y, dir){
       tiro.tamy =  30;
 
       if(weap == 4 || weap == 8) pc.pose = 8;
-      else if(weap == 0) pc.pose = 19;
+      else if(weap == 0){
+        pc.pose = 19;
+        soundLib.play("flecha");
+      }
       tiro.vx = +150;
       tiro.poses = [{key: "fc"+ weap, row: 2, col: 0, colMax: 3, time: 8}];
     break;
@@ -237,7 +246,10 @@ Map.prototype.tiro = function(ctx, x, y, dir){
       tiro.tamy =  -20;
 
       if(weap == 4 || weap == 8) pc.pose = 9;
-      else if(weap == 0) pc.pose = 18;
+      else if(weap == 0){
+        pc.pose = 18;
+        soundLib.play("flecha");
+      }
       tiro.vy = +150;
       tiro.poses = [{key: "fc"+ weap, row: 3, col: 0, colMax: 3, time: 8}];
     break

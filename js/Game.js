@@ -26,6 +26,7 @@ function init(){
   soundLib = new SoundLoader();
   soundLib.load("punch", "sound/punch.mp3");
   soundLib.load("pulo", "sound/pulo.mp3");
+  soundLib.load("flecha", "sound/arrow.mp3");
     
   pc = new Sprite();
   pc.imageLib = imglib;
