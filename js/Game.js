@@ -34,6 +34,7 @@ function init(){
   soundLib.load("contato", "sound/contato.mp3");
   soundLib.load("chave", "sound/chave.mp3");
   soundLib.load("saude", "sound/saude.mp3");
+  soundLib.load("nivelMax", "sound/levelMax.mp3");
     
   pc = new Sprite();
   pc.imageLib = imglib;
@@ -125,12 +126,15 @@ function detalhesGame(id){
   }
 
   if(lvl >= 13){
-    mapa.enemies.length = 0;    
-    inicio = 4;
-
     var telaLvlMax = new Image();
     telaLvlMax.src = "img/telaLevelMax.png";
     ctx.drawImage(telaLvlMax, 0, 0, 800, 480);
+  }    
+
+  if(lvl >= 13 && inicio != 4){
+    soundLib.play("nivelMax");
+    mapa.enemies.length = 0;    
+    inicio = 4;    
   }
 
   if(aux == 4 && lvl > 0 && lvl <= 12){
