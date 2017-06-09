@@ -117,6 +117,19 @@ function detalhesGame(id){
     telaLvlMax.src = "img/telaLevelMax.png";
     ctx.drawImage(telaLvlMax, 0, 0, 800, 480);
   }
+
+  if(aux == 4 && lvl > 0 && lvl <= 12){
+    var telaLvlUp = new Image();
+    telaLvlUp.src = "img/telaLevelUp.png";
+    ctx.drawImage(telaLvlUp, 0, 0, 800, 480);
+
+    ctx.font = "50px Elephant";
+    ctx.fillStyle = "black";
+    if(lvl < 10) ctx.fillText(lvl, 410, 260);
+    else ctx.fillText(lvl, 400, 260);
+
+    inicio = 5;
+  }
 }
 
 function configuraControles(){
@@ -227,6 +240,9 @@ function configuraControles(){
             lvl = 0;
             inicio = 1;
             vida = 5;
+          }else if(aux == 4){
+            inicio = 2;
+            aux = 1;
           }
       break;
       case 32:

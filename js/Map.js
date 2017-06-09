@@ -364,6 +364,7 @@ Map.prototype.alterarLevel = function(map){
     this.chave = 0;
     this.cont = 0;
     this.enemies.length = 0;
+    aux = 4;
 
     if ((lvl % 5) == 0){
       casasMapa=([
