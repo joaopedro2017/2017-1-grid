@@ -22,6 +22,9 @@ function init(){
   imglib.load("en4", "img/en4.png");
   imglib.load("en5", "img/en5.png");
   imglib.load("en6", "img/en6.png");
+
+  soundLib = new SoundLoader();
+  soundLib.load("punch", "sound/punch.mp3");
     
   pc = new Sprite();
   pc.imageLib = imglib;
@@ -246,7 +249,7 @@ function configuraControles(){
           }
       break;
       case 32:
-          mapa.tiro(ctx, pc.x, pc.y, pc.dir);          
+          mapa.tiro(ctx, pc.x, pc.y, pc.dir);                   
       default:
     }
   });

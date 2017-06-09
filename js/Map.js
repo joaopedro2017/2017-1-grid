@@ -329,7 +329,8 @@ Map.prototype.testarAColisaoTiros = function(map){
   for (var i = this.enemies.length-1; i >= 0; i--) {
     for (var j = this.tiros.length-1; j>=0; j--) {
       if(this.tiros[j].colidirCom(this.enemies[i])){
-        this.cont++;       
+        soundLib.play("punch");
+        this.cont++;
         this.enemies[i].destroyed = true;        
         this.enemies.splice(i,1);
         this.tiros[j].destroyed = true;
