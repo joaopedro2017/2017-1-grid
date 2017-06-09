@@ -33,6 +33,7 @@ function init(){
   soundLib.load("perdeu", "sound/vcPerdeu.mp3");
   soundLib.load("contato", "sound/contato.mp3");
   soundLib.load("chave", "sound/chave.mp3");
+  soundLib.load("saude", "sound/saude.mp3");
     
   pc = new Sprite();
   pc.imageLib = imglib;

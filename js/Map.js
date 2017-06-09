@@ -190,7 +190,8 @@ Map.prototype.gerarVida = function(map){
         }
       }
     }
-    vida+=5;    
+    vida+=5;
+    soundLib.play("saude");    
   }  
 }
 
