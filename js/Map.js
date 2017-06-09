@@ -162,6 +162,7 @@ Map.prototype.revelarChave = function(map){
       }
     }
     this.chave = 1;
+    soundLib.play("chave");
   }  
 }
 
