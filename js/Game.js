@@ -66,7 +66,8 @@ function passo(){
 
     if(esc == 1.5 || esc == 2){
       ctx.scale(esc, esc);
-      ctx.translate((Math.min(tela.width/4-pc.x, 0)),Math.min(tela.height/4-pc.y,0));
+      if(esc == 1.5) ctx.translate((Math.min(tela.width/1.655-pc.x, 0)),Math.min(tela.height/1.75-pc.y, 0));
+      else if(esc == 2) ctx.translate((Math.min(tela.width/2.285-pc.x, 0)),Math.min(tela.height/2.49-pc.y,0));
     }    
 
     mapa.alterarLevel(mapa);
@@ -142,10 +143,10 @@ function detalhesGame(id){
     telaLvlUp.src = "img/telaLevelUp.png";
     ctx.drawImage(telaLvlUp, 0, 0, 800, 480);
 
-    ctx.font = "50px Elephant";
-    ctx.fillStyle = "black";
-    if(lvl < 10) ctx.fillText(lvl, 410, 260);
-    else ctx.fillText(lvl, 400, 260);
+    ctx.font = "50px Comic Sans MS";
+    ctx.fillStyle = "yellow";
+    if(lvl < 10) ctx.fillText(lvl, 390, 267.5);
+    else ctx.fillText(lvl, 380, 267.5);
 
     inicio = 5;
   }
