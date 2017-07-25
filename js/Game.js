@@ -199,17 +199,12 @@ function configuraControles(){
         if(aux == 1 && inicio == 2){
           var txt = "Pausa ►! ";
           var txt2 = "Para ☻";
-          var txt3 = "Café!";
-          
-          ctx.fillStyle = "#9AC0CD";
-          ctx.globalAlpha = 0.75;
-          ctx.fillRect(0, 0, tela.width, tela.height);                    
-          ctx.font = "100px Arial";
-          ctx.fillStyle = "darkRed";
-
-          ctx.fillText(txt, 180, 100);
-          ctx.fillText(txt2, 270, 275);
-          ctx.fillText(txt3, 360, 450);
+          var txt3 = "Café!";                             
+          ctx.font = "100px Elephant";
+          ctx.fillStyle = "white";
+          ctx.fillText(txt, 160, 100);
+          ctx.fillText(txt2, 250, 275);
+          ctx.fillText(txt3, 340, 450);
 
           cancelAnimationFrame(id);                    
           aux = 2;
