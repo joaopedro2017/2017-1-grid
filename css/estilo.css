@@ -1,9 +1,21 @@
 *{
 	text-align: center;
 }
+body{
+	background-color: black;
+	background-image: url(https://s-media-cache-ak0.pinimg.com/originals/89/20/25/892025645a3fd814608e55ab1456276f.jpg);
+	background-size: 1440px 900px;
+	background-repeat: no-repeat;
+}
 output{	
-	color: #8B2323;	
+	color: blue;	
 }
-h1{	
-	color: #00008B;	
+h3{	
+	color: white;	
 }
+
+
+/* Dicas CSS
+
+		http://www.maujor.com/tutorial/propriedade-css-para-estilizacao-de-background.php
+		http://guilhermemuller.com.br/pt/posts/3/como-fazer-uma-imagem-de-fundo-preencher-a-tela-inteira*/

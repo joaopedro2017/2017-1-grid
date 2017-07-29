@@ -9,7 +9,7 @@ function init(){
   tela = document.getElementsByTagName('canvas')[0];
   tela.width = 800 ;
   tela.height = 480;
-  tela.style.border = "5px solid black";
+  tela.style.border = "5px solid white";
   ctx = tela.getContext('2d');
 
   imglib = new ImageLoader();    
